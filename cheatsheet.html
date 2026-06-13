@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>养虾小抄 · 一页带走</title>
+<style>
+  :root{
+    --ink:#15162B;--ink-2:#5A5D78;--line:#E3E5F0;--primary:#4E5BF6;--primary-2:#7B61FF;
+    --good:#16B57F;--bad:#F0506E;--warn:#C77A00;--soft:#F1F2FB;
+    --font:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--font);color:var(--ink);background:#EDEEF6;line-height:1.55;padding:30px 16px}
+  .page{max-width:880px;margin:0 auto;background:#fff;border-radius:16px;box-shadow:0 12px 40px rgba(40,44,90,.12);padding:34px 38px 40px;position:relative}
+  .toolbar{max-width:880px;margin:0 auto 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+  .toolbar .hint{font-size:13px;color:#6b6e8c}
+  .btn{border:none;border-radius:10px;padding:10px 18px;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit}
+  .btn-print{background:linear-gradient(120deg,#4E5BF6,#7B61FF);color:#fff;box-shadow:0 8px 20px rgba(78,91,246,.35)}
+  .btn-back{background:#fff;border:1px solid var(--line);color:var(--ink)}
+  a{color:inherit;text-decoration:none}
+
+  .head{display:flex;align-items:center;gap:12px;border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:18px}
+  .head .logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(120deg,#4E5BF6,#9B6CFF);display:grid;place-items:center;font-size:23px}
+  .head h1{font-size:23px;letter-spacing:-.3px}
+  .head .sub{font-size:13px;color:var(--ink-2)}
+  .head .tag{margin-left:auto;font-size:12px;color:var(--primary);background:#EEEFFE;padding:5px 12px;border-radius:999px;font-weight:700}
+
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .box{border:1px solid var(--line);border-radius:12px;padding:15px 17px;break-inside:avoid}
+  .box h2{font-size:15px;display:flex;align-items:center;gap:8px;margin-bottom:10px}
+  .box h2 .e{font-size:18px}
+  .box.full{grid-column:1 / -1}
+
+  ol,ul{padding-left:4px;list-style:none}
+  .rule{display:flex;gap:9px;font-size:13.5px;margin:7px 0;align-items:flex-start}
+  .rule .n{flex:none;width:20px;height:20px;border-radius:6px;background:var(--primary);color:#fff;font-size:11px;font-weight:800;display:grid;place-items:center;margin-top:1px}
+  .rule b{color:var(--ink)}
+  .rule small{color:var(--ink-2)}
+
+  .tmpl{background:var(--soft);border-radius:9px;padding:11px 13px;font-size:13px;margin:8px 0;line-height:1.6}
+  .tmpl .t{font-weight:800;color:var(--primary);display:block;margin-bottom:3px;font-size:12px}
+  .tmpl .hl{background:#FFE7C2;border-radius:4px;padding:0 4px;color:#8a5a00;font-weight:600}
+
+  .warn-strip{grid-column:1 / -1;background:#FFF4E0;border:1px solid #F3D08A;border-radius:12px;padding:13px 17px;font-size:13.5px;color:#7a5200;display:flex;gap:10px;align-items:flex-start}
+  .warn-strip .e{font-size:18px;flex:none}
+  .foot{margin-top:18px;border-top:1px dashed var(--line);padding-top:12px;font-size:11.5px;color:#9095b3;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+
+  @media print{
+    body{background:#fff;padding:0}
+    .page{box-shadow:none;border-radius:0;max-width:100%;padding:14mm 14mm}
+    .toolbar{display:none}
+    @page{margin:10mm}
+  }
+  @media(max-width:680px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+  <div class="toolbar">
+    <span class="hint">💡 这是一页可打印的小抄，贴工位上随时照着用。点右边按钮打印或存成 PDF。</span>
+    <div style="display:flex;gap:10px">
+      <a class="btn btn-back" href="index.html">← 回教程</a>
+      <button class="btn btn-print" onclick="window.print()">🖨️ 打印 / 存 PDF</button>
+    </div>
+  </div>
+
+  <div class="page">
+    <div class="head">
+      <div class="logo">🦐</div>
+      <div>
+        <h1>养虾小抄</h1>
+        <div class="sub">跟 AI 助手打交道，照这张纸来就行</div>
+      </div>
+      <div class="tag">一页带走</div>
+    </div>
+
+    <div class="grid">
+      <!-- 诀窍 -->
+      <div class="box">
+        <h2><span class="e">✅</span> 用好它的 6 条诀窍</h2>
+        <div class="rule"><span class="n">1</span><div><b>把话说清楚</b><br/><small>一句话点明：要什么 · 给谁看 · 多长/什么风格</small></div></div>
+        <div class="rule"><span class="n">2</span><div><b>给个例子最省事</b><br/><small>把想要的样子（范文/旧版本）直接发给它照着学</small></div></div>
+        <div class="rule"><span class="n">3</span><div><b>大事先列提纲再写</b><br/><small>「先别写，给我个提纲」——方向对了再展开</small></div></div>
+        <div class="rule"><span class="n">4</span><div><b>不满意就让它改</b><br/><small>说清「哪段、怎么改」，几秒就好，别自己重写</small></div></div>
+        <div class="rule"><span class="n">5</span><div><b>重要的自己核一遍</b><br/><small>数字、人名、事实，交出去前再扫一眼</small></div></div>
+        <div class="rule"><span class="n">6</span><div><b>一件事一个对话</b><br/><small>周报、材料分开聊，越混越乱越笨</small></div></div>
+      </div>
+
+      <!-- 三种喂料 + 它的脾气 -->
+      <div class="box">
+        <h2><span class="e">🍚</span> 想让它更懂你？喂三样</h2>
+        <div class="rule"><span class="n" style="background:var(--primary-2)">材</span><div><b>喂材料</b><br/><small>把表格、文档、旧周报一起发给它看</small></div></div>
+        <div class="rule"><span class="n" style="background:var(--primary-2)">样</span><div><b>喂样板</b><br/><small>把你/领导喜欢的范文给它，让它照着风格写</small></div></div>
+        <div class="rule"><span class="n" style="background:var(--primary-2)">新</span><div><b>喂新信息</b><br/><small>要最新数据/政策时，让它先上网查再写</small></div></div>
+        <h2 style="margin-top:14px"><span class="e">🦐</span> 记住它的脾气</h2>
+        <div class="rule"><span class="n" style="background:var(--good)">✓</span><div><small>用大白话说就行，像交代实习生</small></div></div>
+        <div class="rule"><span class="n" style="background:var(--good)">✓</span><div><small>能看你给的资料，不是凭空编</small></div></div>
+        <div class="rule"><span class="n" style="background:var(--bad)">!</span><div><small>新对话会「失忆」；偶尔会一本正经说错</small></div></div>
+      </div>
+
+      <!-- 复制即用模板 -->
+      <div class="box full">
+        <h2><span class="e">📋</span> 三句「开口话术」——把 <span style="color:#8a5a00">高亮处</span> 换成你的内容，复制即用</h2>
+        <div class="tmpl"><span class="t">📝 写周报</span>帮我把这周做的事整理成周报，<span class="hl">给领导看</span>，简洁、突出成果，按「成果 / 进展 / 下周计划」分，控制在一屏内。素材：<span class="hl">【想到啥写啥贴进来】</span></div>
+        <div class="tmpl"><span class="t">📊 看数据表</span>帮我看这张表，我不太懂数据，用大白话说有什么变化和问题，<span class="hl">把算的过程和原始数字也列出来</span>方便我核对，最后给我一段能放进周报的小结。表格：<span class="hl">【粘贴/上传表格】</span></div>
+        <div class="tmpl"><span class="t">📄 写材料</span>帮我准备一份<span class="hl">【部门年中总结】</span>，给领导汇报用。<span class="hl">请先别写，先给我列个提纲</span>，我确认方向后你再逐节展开。已有信息：<span class="hl">【写清要做啥、有哪些内容】</span></div>
+      </div>
+
+      <div class="warn-strip">
+        <span class="e">⚠️</span>
+        <div><b>最重要的一条：</b>它给的数字和事实，<b>交出去前一定自己再核一遍</b>。AI 偶尔会算错或编造，这是它最容易翻车、也最该你把关的地方。拿不准就让它「把依据列出来」。</div>
+      </div>
+    </div>
+
+    <div class="foot">
+      <span>🦐 养虾指南 · 小抄</span>
+      <span>具体用法 / 权限 / 数据规范，以公司内部说明为准</span>
+    </div>
+  </div>
+</body>
+</html>

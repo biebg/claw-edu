@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>养虾指南 · 手把手教你用 AI 助手把活干得又快又好</title>
+<meta name="description" content="写给普通人的 AI 助手入门：从认识它、它能帮你做什么、手把手实战案例（写周报/分析数据/写材料），到用好它的诀窍和打造你的专属助手。" />
+<style>
+  :root{
+    --bg:#F6F7FB;--bg-soft:#EEF0FA;--card:#FFFFFF;--ink:#15162B;--ink-2:#5A5D78;--ink-3:#8A8DA8;
+    --line:#E9EBF5;--primary:#4E5BF6;--primary-2:#7B61FF;--primary-soft:#EEEFFE;
+    --coral:#FF7A59;--coral-2:#FF5C8A;--good:#16B57F;--good-soft:#E5F7F0;--bad:#F0506E;--bad-soft:#FDECEF;
+    --warn:#F5A524;--warn-soft:#FEF3DD;
+    --shadow:0 10px 30px rgba(40,44,90,.08);--shadow-lg:0 24px 60px rgba(40,44,90,.14);
+    --radius:20px;
+    --grad:linear-gradient(120deg,#4E5BF6 0%,#7B61FF 55%,#9B6CFF 100%);
+    --grad-coral:linear-gradient(120deg,#FF7A59 0%,#FF5C8A 100%);
+    /* 恒定深色面：不随主题翻转（导航按钮、激活标签、小测、页脚等） */
+    --surface-dark:#15162B;
+    --header-bg:rgba(246,247,251,.78);
+    --tank-grad:linear-gradient(180deg,#EAF0FF 0%,#F3EEFF 100%);
+    --font:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  body.dark{
+    --bg:#0E0F1A;--bg-soft:#191B30;--card:#171930;--ink:#EEF0FA;--ink-2:#AAADCE;--ink-3:#787CA3;
+    --line:#282B47;--primary:#7C86FF;--primary-2:#9B86FF;--primary-soft:#222545;
+    --good-soft:#15302A;--bad-soft:#33212A;--warn-soft:#332912;
+    --shadow:0 10px 30px rgba(0,0,0,.35);--shadow-lg:0 24px 60px rgba(0,0,0,.5);
+    --surface-dark:#1F2240;--header-bg:rgba(14,15,26,.82);
+    --tank-grad:linear-gradient(180deg,#1A2142 0%,#241B40 100%);
+  }
+  body.dark .flip-back.warn{background:linear-gradient(120deg,#caa84a,#d6735a)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:84px}
+  body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--primary);color:#fff}
+  #progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--grad);z-index:200;transition:width .1s linear}
+
+  header{position:fixed;top:0;left:0;right:0;z-index:150;backdrop-filter:saturate(180%) blur(14px);background:var(--header-bg);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+  header.scrolled{border-color:var(--line);box-shadow:0 4px 20px rgba(40,44,90,.05)}
+  .nav{max-width:1160px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:18px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px}
+  .brand .logo{width:34px;height:34px;border-radius:11px;background:var(--grad);display:grid;place-items:center;font-size:19px;box-shadow:0 6px 16px rgba(78,91,246,.35)}
+  .nav-links{display:flex;gap:2px;margin-left:auto}
+  .nav-links a{font-size:14px;color:var(--ink-2);padding:8px 12px;border-radius:10px;font-weight:600;transition:.18s}
+  .nav-links a:hover{background:var(--primary-soft);color:var(--primary)}
+  .nav-links a.active{background:var(--primary);color:#fff}
+  .theme-btn{width:38px;height:38px;border-radius:11px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:17px;cursor:pointer;display:grid;place-items:center;transition:.18s;flex:none}
+  .theme-btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+  .nav-cta{background:var(--surface-dark);color:#fff;padding:9px 15px;border-radius:11px;font-weight:700;font-size:14px;transition:.18s;white-space:nowrap}
+  .nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(21,22,43,.25)}
+  @media(max-width:980px){.nav-links{display:none}}
+
+  section{max-width:1160px;margin:0 auto;padding:84px 24px}
+  .eyebrow{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:var(--primary);background:var(--primary-soft);padding:6px 13px;border-radius:999px}
+  h2.sec-title{font-size:clamp(27px,4vw,40px);font-weight:850;letter-spacing:-.5px;margin:18px 0 12px;line-height:1.2}
+  .sec-sub{font-size:17px;color:var(--ink-2);max-width:660px}
+
+  .hero{position:relative;padding-top:148px;padding-bottom:56px;overflow:hidden}
+  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+  .hero h1{font-size:clamp(34px,5.5vw,58px);font-weight:850;line-height:1.08;letter-spacing:-1.2px}
+  .hero h1 .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p.lead{font-size:19px;color:var(--ink-2);margin:22px 0 14px;max-width:540px}
+  .hero .who{font-size:15px;color:var(--ink-3);background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 16px;max-width:540px;margin-bottom:26px}
+  .hero .who b{color:var(--primary)}
+  .btn-row{display:flex;gap:14px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:9px;padding:15px 26px;border-radius:14px;font-weight:750;font-size:16px;cursor:pointer;border:none;transition:.2s}
+  .btn-primary{background:var(--grad);color:#fff;box-shadow:0 12px 28px rgba(78,91,246,.35)}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 18px 38px rgba(78,91,246,.45)}
+  .btn-ghost{background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:var(--shadow)}
+  .btn-ghost:hover{transform:translateY(-2px)}
+
+  .tank{position:relative;aspect-ratio:1/1;border-radius:32px;background:var(--tank-grad);overflow:hidden;box-shadow:var(--shadow-lg);border:1px solid var(--card)}
+  .tank .bubble{position:absolute;border-radius:50%;background:rgba(255,255,255,.6);animation:rise linear infinite}
+  @keyframes rise{from{transform:translateY(0);opacity:0}10%{opacity:.9}to{transform:translateY(-340px);opacity:0}}
+  .shrimp{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);font-size:118px;filter:drop-shadow(0 14px 24px rgba(255,92,138,.35));animation:swim 5s ease-in-out infinite}
+  @keyframes swim{0%,100%{transform:translate(-50%,-50%) rotate(-6deg)}50%{transform:translate(-50%,-58%) rotate(6deg)}}
+  .tank .lvl-badge{position:absolute;bottom:22px;left:22px;right:22px;background:var(--card);backdrop-filter:blur(8px);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow)}
+  .lvl-badge .ring{width:46px;height:46px;border-radius:50%;background:conic-gradient(var(--primary) var(--p,30%),#E4E7F5 0);display:grid;place-items:center;flex:none}
+  .lvl-badge .ring i{width:34px;height:34px;border-radius:50%;background:#fff;display:grid;place-items:center;font-style:normal;font-weight:800;font-size:13px;color:var(--primary)}
+  .lvl-badge b{font-size:14px}.lvl-badge small{display:block;color:var(--ink-3);font-size:12px;font-weight:600}
+  @media(max-width:860px){.hero-grid{grid-template-columns:1fr}.tank{max-width:420px;margin:0 auto}}
+
+  .journey{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:46px;counter-reset:step}
+  .step-card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 18px;cursor:pointer;transition:.22s;overflow:hidden}
+  .step-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);border-color:transparent}
+  .step-card .num{counter-increment:step;font-size:13px;font-weight:800;color:#fff;width:30px;height:30px;border-radius:9px;background:var(--grad);display:grid;place-items:center;margin-bottom:14px}
+  .step-card .num::before{content:counter(step,decimal-leading-zero)}
+  .step-card .ico{font-size:30px;margin-bottom:8px}
+  .step-card b{font-size:15px;display:block;margin-bottom:4px}
+  .step-card span{font-size:13px;color:var(--ink-3)}
+  @media(max-width:860px){.journey{grid-template-columns:repeat(2,1fr)}}
+
+  .grid{display:grid;gap:18px}.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:repeat(2,1fr)}
+  @media(max-width:860px){.g3,.g2{grid-template-columns:1fr}}
+
+  /* flip cards */
+  .flip{perspective:1200px;height:188px;cursor:pointer}
+  .flip-in{position:relative;width:100%;height:100%;transition:transform .6s;transform-style:preserve-3d}
+  .flip.on .flip-in{transform:rotateY(180deg)}
+  .flip-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--radius);padding:24px;display:flex;flex-direction:column;justify-content:center;border:1px solid var(--line)}
+  .flip-front{background:var(--card)}
+  .flip-front .emo{font-size:34px;margin-bottom:10px}
+  .flip-front b{font-size:18px}
+  .flip-front small{color:var(--ink-3);font-size:13px;margin-top:6px;font-weight:600}
+  .flip-back{background:var(--grad);color:#fff;transform:rotateY(180deg)}
+  .flip-back p{font-size:14px;color:#fff;opacity:.96}
+  .flip-back.warn{background:linear-gradient(120deg,#F5A524,#FF7A59)}
+
+  /* tabs */
+  .tabs{display:flex;flex-wrap:wrap;gap:9px;margin:28px 0 24px}
+  .tab{padding:10px 18px;border-radius:12px;font-weight:700;font-size:14px;cursor:pointer;background:var(--card);border:1px solid var(--line);color:var(--ink-2);transition:.18s}
+  .tab.active{background:var(--surface-dark);color:#fff;border-color:var(--surface-dark)}
+  .cap-item{display:none}.cap-item.show{display:block;animation:fade .35s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .cap-list{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  @media(max-width:860px){.cap-list{grid-template-columns:1fr}}
+  .cap{display:flex;gap:14px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+  .cap .e{font-size:24px;flex:none;width:44px;height:44px;border-radius:12px;background:var(--bg-soft);display:grid;place-items:center}
+  .cap b{font-size:15px}.cap p{font-size:13.5px;color:var(--ink-2);margin-top:3px}
+
+  /* ---------- CHAT CASES ---------- */
+  .case-wrap{margin-top:26px}
+  .chat{background:var(--bg-soft);border:1px solid var(--line);border-radius:26px;padding:26px;box-shadow:var(--shadow)}
+  .chat-head{display:flex;align-items:center;gap:12px;padding-bottom:18px;margin-bottom:20px;border-bottom:1px solid var(--line)}
+  .chat-head .av{width:42px;height:42px;border-radius:13px;background:var(--grad-coral);display:grid;place-items:center;font-size:22px;flex:none;box-shadow:0 6px 14px rgba(255,92,138,.3)}
+  .chat-head b{font-size:16px;display:block}
+  .chat-head small{color:var(--ink-3);font-size:13px}
+  .case-item{display:none}.case-item.show{display:block;animation:fade .35s}
+  .stepline{display:flex;align-items:center;gap:10px;margin:22px 0 12px;font-size:13px;font-weight:800;color:var(--primary)}
+  .stepline .dot{width:24px;height:24px;border-radius:50%;background:var(--grad);color:#fff;display:grid;place-items:center;font-size:12px;flex:none}
+  .stepline:first-child{margin-top:0}
+  .msg{display:flex;gap:11px;margin:12px 0;max-width:88%}
+  .msg .bubble-av{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;font-size:18px;flex:none}
+  .msg .txt{padding:13px 16px;border-radius:16px;font-size:14.5px;line-height:1.65;white-space:pre-line}
+  .msg.user{margin-left:auto;flex-direction:row-reverse}
+  .msg.user .bubble-av{background:var(--primary-soft)}
+  .msg.user .txt{background:var(--grad);color:#fff;border-bottom-right-radius:5px}
+  .msg.bot .bubble-av{background:var(--card);border:1px solid var(--line)}
+  .msg.bot .txt{background:var(--card);border:1px solid var(--line);border-bottom-left-radius:5px;color:var(--ink)}
+  .msg.bot .txt b{color:var(--primary)}
+  .tip{display:flex;gap:10px;align-items:flex-start;background:var(--good-soft);border-radius:14px;padding:13px 16px;font-size:13.5px;color:#11795a;margin:14px 0 0;font-weight:600}
+  .tip.warn{background:var(--warn-soft);color:#9a6300}
+  .tip .e{flex:none}
+  @media(max-width:860px){.msg{max-width:97%}.chat{padding:18px}}
+
+  /* accordion (feed) */
+  .acc{background:var(--card);border:1px solid var(--line);border-radius:16px;margin-bottom:12px;overflow:hidden;transition:.2s}
+  .acc.open{box-shadow:var(--shadow);border-color:transparent}
+  .acc-h{display:flex;align-items:center;gap:16px;padding:20px 22px;cursor:pointer}
+  .acc-h .e{font-size:26px;width:48px;height:48px;border-radius:13px;background:var(--primary-soft);display:grid;place-items:center;flex:none}
+  .acc-h b{font-size:17px}.acc-h .sub{font-size:13px;color:var(--ink-3);font-weight:600}
+  .acc-h .chev{margin-left:auto;font-size:20px;color:var(--ink-3);transition:.3s}
+  .acc.open .chev{transform:rotate(180deg);color:var(--primary)}
+  .acc-b{max-height:0;overflow:hidden;transition:max-height .35s ease}
+  .acc-b-in{padding:0 22px 22px 86px;color:var(--ink-2);font-size:14.5px}
+  .acc-b-in ul{margin:8px 0 0;padding-left:18px}.acc-b-in li{margin:6px 0}
+  .acc-b-in .ex{background:var(--bg-soft);border-radius:11px;padding:11px 14px;margin-top:12px;font-size:13.5px;color:var(--ink)}
+  .acc-b-in .ex b{color:var(--primary)}
+  @media(max-width:860px){.acc-b-in{padding-left:22px}}
+
+  /* best practice do/dont */
+  .bp{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;height:100%}
+  .bp .h{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+  .bp .h .n{width:34px;height:34px;border-radius:10px;background:var(--grad);color:#fff;display:grid;place-items:center;font-weight:800;font-size:14px;flex:none}
+  .bp .h b{font-size:16.5px}
+  .bp .row{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;margin:9px 0}
+  .bp .row .mk{flex:none;width:20px;height:20px;border-radius:6px;display:grid;place-items:center;font-size:12px;font-weight:800;margin-top:1px}
+  .bp .do .mk{background:var(--good-soft);color:var(--good)}
+  .bp .dont .mk{background:var(--bad-soft);color:var(--bad)}
+  .bp .do{color:var(--ink)}.bp .dont{color:var(--ink-2)}
+  .src-note{margin-top:30px;background:var(--primary-soft);border-radius:16px;padding:18px 22px;font-size:13.5px;color:var(--ink-2)}
+  .src-note b{color:var(--primary)}
+  .src-note a{color:var(--primary);font-weight:600;text-decoration:underline;text-underline-offset:2px}
+
+  /* recipe builder */
+  .builder{background:var(--card);border:1px solid var(--line);border-radius:26px;padding:34px;box-shadow:var(--shadow);margin-top:30px}
+  .b-step{margin-bottom:24px}
+  .b-step .q{font-weight:750;font-size:16px;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+  .b-step .q .qn{width:26px;height:26px;border-radius:8px;background:var(--surface-dark);color:#fff;display:grid;place-items:center;font-size:13px;font-weight:800;flex:none}
+  .opts{display:flex;flex-wrap:wrap;gap:10px}
+  .opt{padding:11px 17px;border-radius:13px;border:1.5px solid var(--line);background:var(--card);cursor:pointer;font-size:14px;font-weight:650;color:var(--ink-2);transition:.16s;user-select:none}
+  .opt:hover{border-color:var(--primary-2)}
+  .opt.sel{border-color:var(--primary);background:var(--primary-soft);color:var(--primary)}
+  .b-gen{display:flex;justify-content:center;margin-top:6px}
+  .result{margin-top:28px;border-top:1px dashed var(--line);padding-top:28px;display:none}
+  .result.show{display:block;animation:fade .4s}
+  .result h4{font-size:14px;color:var(--ink-3);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;font-weight:800}
+  .paste{background:#1B1C30;color:#E6E8FF;border-radius:16px;padding:22px 22px 22px;font-size:14.5px;line-height:1.8;position:relative;white-space:pre-line}
+  .paste .hl{color:#FFB37A}
+  .copy{position:absolute;top:12px;right:12px;background:rgba(255,255,255,.12);color:#fff;border:none;border-radius:9px;padding:7px 14px;font-size:12.5px;font-weight:700;cursor:pointer;transition:.16s}
+  .copy:hover{background:rgba(255,255,255,.24)}
+  .tune{margin-top:24px;display:grid;gap:10px}
+  .tune .t{display:flex;gap:11px;align-items:flex-start;font-size:14px;color:var(--ink-2);background:var(--good-soft);border-radius:12px;padding:13px 16px}
+  .tune .t .e{flex:none}
+
+  /* quiz */
+  .quiz{background:var(--surface-dark);color:#fff;border-radius:26px;padding:40px;position:relative;overflow:hidden}
+  .quiz::before{content:"🦐";position:absolute;font-size:200px;right:-30px;bottom:-50px;opacity:.06;transform:rotate(-15deg)}
+  .quiz .qt{font-size:20px;font-weight:750;margin-bottom:8px;position:relative}
+  .quiz .qsub{color:#A9ADD6;font-size:14px;margin-bottom:24px}
+  .q-q{font-size:18px;font-weight:700;margin-bottom:18px}
+  .q-opts{display:grid;gap:11px}
+  .q-opt{background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.12);border-radius:13px;padding:14px 18px;cursor:pointer;font-size:15px;font-weight:600;transition:.16s}
+  .q-opt:hover{background:rgba(255,255,255,.12)}
+  .q-opt.correct{background:var(--good);border-color:var(--good)}
+  .q-opt.wrong{background:var(--bad);border-color:var(--bad)}
+  .q-fb{margin-top:16px;font-size:14px;color:#C9CCEE;min-height:22px}
+  .q-nav{display:flex;align-items:center;justify-content:space-between;margin-top:24px}
+  .q-prog{font-size:13px;color:#A9ADD6;font-weight:700}
+  .q-next{background:#fff;color:#15162B;border:none;border-radius:11px;padding:11px 22px;font-weight:750;cursor:pointer;font-size:14px;transition:.16s;opacity:.4;pointer-events:none}
+  .q-next.on{opacity:1;pointer-events:auto}.q-next:hover{transform:translateY(-1px)}
+  .q-done{text-align:center;padding:20px 0}
+  .q-done .big{font-size:54px;font-weight:850;background:var(--grad-coral);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:.6s cubic-bezier(.2,.7,.3,1)}
+  .reveal.in{opacity:1;transform:none}
+
+  footer{background:var(--surface-dark);color:#B9BCDD;margin-top:40px}
+  .foot{max-width:1160px;margin:0 auto;padding:54px 24px 40px}
+  .foot-top{display:flex;flex-wrap:wrap;gap:30px;justify-content:space-between;align-items:flex-start;padding-bottom:30px;border-bottom:1px solid rgba(255,255,255,.1)}
+  .foot .brand{color:#fff}.foot p{font-size:14px;max-width:400px;margin-top:12px}
+  .foot .links h5{color:#fff;font-size:13px;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+  .foot .links a{display:block;font-size:14px;margin:7px 0;color:#B9BCDD;transition:.15s}.foot .links a:hover{color:#fff}
+  .foot-bot{padding-top:24px;font-size:13px;color:#7C7FA6;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  .disc{font-size:12px;color:#6C6F95;margin-top:8px;max-width:600px}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<header id="hdr">
+  <nav class="nav">
+    <div class="brand"><span class="logo">🦐</span> 养虾指南</div>
+    <div class="nav-links">
+      <a href="#basics">认识它</a>
+      <a href="#abilities">能帮你</a>
+      <a href="#cases">实战案例</a>
+      <a href="#feed">喂料升级</a>
+      <a href="#tips">用好它</a>
+      <a href="#custom">专属虾</a>
+    </div>
+    <a class="nav-cta" href="cheatsheet.html" target="_blank">🖨️ 打印小抄</a>
+    <button class="theme-btn" id="themeBtn" title="切换深色 / 浅色" aria-label="切换深色浅色模式">🌙</button>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-grid">
+    <div>
+      <span class="eyebrow">🦐 写给「第一次用 AI」的你</span>
+      <h1>把这只虾养熟，<br/><span class="grad">写周报、看数据、做材料<br/>都能帮你一把</span></h1>
+      <p class="lead">这里说的「虾」，就是你工作里能用的那个 AI 助手（公司内部署的 OpenClaw / Hermes）。它不只是会聊天——它能真的帮你把活干完。</p>
+      <div class="who">👋 不用懂技术，也没接触过 AI 完全没关系。跟着这 5 关走，再看几个<b>手把手的真实例子</b>，你也能把它使唤得很顺手。</div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="document.getElementById('basics').scrollIntoView()">从头开始学 →</button>
+        <button class="btn btn-ghost" onclick="document.getElementById('cases').scrollIntoView()">▶ 先看实战案例</button>
+      </div>
+    </div>
+    <div class="tank" id="tank">
+      <div class="shrimp">🦐</div>
+      <div class="lvl-badge">
+        <div class="ring" id="growRing"><i id="growPct">0%</i></div>
+        <div><b id="growStage">虾苗 · 第 0 关</b><small>往下滑，看着它一点点长大 👇</small></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="journey">
+    <div class="step-card" onclick="go('basics')"><div class="num"></div><div class="ico">🐣</div><b>认识它</b><span>它是个啥、能信几分</span></div>
+    <div class="step-card" onclick="go('abilities')"><div class="num"></div><div class="ico">💪</div><b>能帮你</b><span>周报 / 数据 / 材料</span></div>
+    <div class="step-card" onclick="go('cases')"><div class="num"></div><div class="ico">▶️</div><b>实战案例</b><span>手把手看一遍</span></div>
+    <div class="step-card" onclick="go('feed')"><div class="num"></div><div class="ico">🍚</div><b>喂料升级</b><span>让它更懂你的活</span></div>
+    <div class="step-card" onclick="go('custom')"><div class="num"></div><div class="ico">🎯</div><b>专属虾</b><span>生成你的开口话术</span></div>
+  </div>
+</section>
+
+<!-- 1. BASICS -->
+<section id="basics">
+  <div class="reveal">
+    <span class="eyebrow">第 1 关 · 先认识它</span>
+    <h2 class="sec-title">这只「虾」到底是个啥？</h2>
+    <p class="sec-sub">别被「AI」两个字吓到。把下面 6 件事弄明白，你就知道它能帮你什么、又不能太迷信它。点一下卡片翻到背面看大白话解释 👇</p>
+  </div>
+  <div class="grid g3" style="margin-top:36px" id="glossary">
+    <div class="flip reveal"><div class="flip-in">
+      <div class="flip-face flip-front"><div class="emo">🙋</div><b>它是个「会动手的助理」</b><small>点击翻面</small></div>
+      <div class="flip-face flip-back"><p>它不只是问答机器人。你交代一件事，它会自己一步步去做：查资料、读你给的文件、整理、写出来。把它当成一个不嫌烦、随叫随到的实习生就对了。</p></div>
+    </div></div>
+    <div class="flip reveal"><div class="flip-in">
+      <div class="flip-face flip-front"><div class="emo">💬</div><b>用大白话跟它说就行</b><small>点击翻面</small></div>
+      <div class="flip-face flip-back"><p>不需要什么咒语或专业指令。你怎么跟同事交代活儿，就怎么跟它说。话说得越清楚（要什么、给谁看、多长、什么风格），它做得越对。</p></div>
+    </div></div>
+    <div class="flip reveal"><div class="flip-in">
+      <div class="flip-face flip-front"><div class="emo">📎</div><b>能「看」你给的资料</b><small>点击翻面</small></div>
+      <div class="flip-face flip-back"><p>把表格、文档、链接、一段文字丢给它，它就能基于这些来帮你。这是它最值钱的地方——不是凭空编，而是处理<b>你手上的真实材料</b>。</p></div>
+    </div></div>
+    <div class="flip reveal"><div class="flip-in">
+      <div class="flip-face flip-front"><div class="emo">🧠</div><b>它「记性」有限</b><small>点击翻面</small></div>
+      <div class="flip-face flip-back"><p>一次对话里它记得你们聊过的；但新开一个对话，它就「失忆」了，不记得上次的事。所以一件大事尽量在同一个对话里聊完。</p></div>
+    </div></div>
+    <div class="flip reveal"><div class="flip-in">
+      <div class="flip-face flip-front warn"><div class="emo">⚠️</div><b>它会一本正经地说错</b><small>点击翻面</small></div>
+      <div class="flip-face flip-back warn"><p>这点很重要：它偶尔会把数字算错、把事情编得有模有样。所以<b>重要的数字、事实，自己一定要再核一遍</b>，别直接全信、全交上去。</p></div>
+    </div></div>
+    <div class="flip reveal"><div class="flip-in">
+      <div class="flip-face flip-front"><div class="emo">🔒</div><b>放心用，但守点规矩</b><small>点击翻面</small></div>
+      <div class="flip-face flip-back"><p>这是公司内部署的虾，比外面的 AI 安全。但仍建议：特别敏感的东西（密码、身份证号等）别往里贴；公司资料按你们的规定来用就好。</p></div>
+    </div></div>
+  </div>
+</section>
+
+<!-- 2. ABILITIES -->
+<section id="abilities">
+  <div class="reveal">
+    <span class="eyebrow">第 2 关 · 它能帮你做什么</span>
+    <h2 class="sec-title">你的活儿，它能搭把手的地方</h2>
+    <p class="sec-sub">按你最常做的事切换标签看看。下面这些都是「直接说一句话它就能开干」的活。</p>
+  </div>
+  <div class="tabs" id="capTabs">
+    <div class="tab active" data-c="report">📝 写周报</div>
+    <div class="tab" data-c="data">📊 看数据</div>
+    <div class="tab" data-c="doc">📄 做材料</div>
+    <div class="tab" data-c="misc">✨ 打杂</div>
+  </div>
+  <div id="capBody">
+    <div class="cap-item show" data-c="report"><div class="cap-list">
+      <div class="cap"><div class="e">🧩</div><div><b>把流水账理成周报</b><p>你把这周零散做的事丢给它，它整理成「成果 / 进展 / 下周计划」。</p></div></div>
+      <div class="cap"><div class="e">✂️</div><div><b>精简 & 突出重点</b><p>太长帮你砍短，把领导最关心的成果提到前面。</p></div></div>
+      <div class="cap"><div class="e">🎚️</div><div><b>调语气</b><p>「再正式点」「口语一点」「像我平时的风格」，一句话就能改。</p></div></div>
+      <div class="cap"><div class="e">📅</div><div><b>攒成月报/季报</b><p>把几周的周报丢进去，让它合并去重、归纳成月度总结。</p></div></div>
+    </div></div>
+    <div class="cap-item" data-c="data"><div class="cap-list">
+      <div class="cap"><div class="e">🔍</div><div><b>帮你「看懂」一张表</b><p>把表格给它，问「有什么变化和问题」，它用大白话告诉你。</p></div></div>
+      <div class="cap"><div class="e">📈</div><div><b>找趋势、挑异常</b><p>哪个月掉了、哪项一直涨、哪里不对劲，它帮你点出来。</p></div></div>
+      <div class="cap"><div class="e">🧮</div><div><b>不用会公式</b><p>算占比、环比、平均值这些，你说人话，它来算（记得复核数字）。</p></div></div>
+      <div class="cap"><div class="e">🗣️</div><div><b>写成一段结论</b><p>把发现总结成能直接放进周报/汇报的一段话。</p></div></div>
+    </div></div>
+    <div class="cap-item" data-c="doc"><div class="cap-list">
+      <div class="cap"><div class="e">🗂️</div><div><b>先列提纲</b><p>「先别写，给我个提纲」——确认方向对了再展开，不白费功夫。</p></div></div>
+      <div class="cap"><div class="e">📝</div><div><b>逐节展开成稿</b><p>按提纲一节一节写出来，方案、汇报、总结都行。</p></div></div>
+      <div class="cap"><div class="e">🎤</div><div><b>配讲稿/要点</b><p>给 PPT 配一句话说明，或写一份汇报时照着念的口播稿。</p></div></div>
+      <div class="cap"><div class="e">♻️</div><div><b>改到满意为止</b><p>哪段不行就说哪段、怎么改，不用从头重写。</p></div></div>
+    </div></div>
+    <div class="cap-item" data-c="misc"><div class="cap-list">
+      <div class="cap"><div class="e">✉️</div><div><b>回邮件 / 消息</b><p>给它原文 + 你的意思，它帮你写得得体又利落。</p></div></div>
+      <div class="cap"><div class="e">🌐</div><div><b>上网查资料</b><p>查行业信息、对比几个方案，带出处给你，省去自己翻。</p></div></div>
+      <div class="cap"><div class="e">🌍</div><div><b>翻译 / 润色</b><p>中英互译、把话说得更专业或更亲切。</p></div></div>
+      <div class="cap"><div class="e">💡</div><div><b>起标题 / 出点子</b><p>一下给你十个标题、几种思路，挑着用。</p></div></div>
+    </div></div>
+  </div>
+</section>
+
+<!-- 3. CASES (centerpiece) -->
+<section id="cases">
+  <div class="reveal">
+    <span class="eyebrow">第 3 关 · 手把手实战</span>
+    <h2 class="sec-title">跟着这三个真实例子，看一遍就会</h2>
+    <p class="sec-sub">下面是三段真实的对话演示：<b>左边白底是虾说的，右边紫色是你说的</b>。绿色小卡片是「诀窍」——照着学，你也能这么用。切换上面的标签换案例。</p>
+  </div>
+  <div class="tabs" id="caseTabs" style="margin-top:28px">
+    <div class="tab active" data-k="report">📝 案例①：写一份周报</div>
+    <div class="tab" data-k="data">📊 案例②：看懂一张数据表</div>
+    <div class="tab" data-k="doc">📄 案例③：做一份汇报材料</div>
+  </div>
+
+  <div class="case-wrap">
+    <div class="chat">
+      <div class="chat-head"><div class="av">🦐</div><div><b id="caseName">案例①：写一份周报</b><small id="caseDesc">把一周零散做的事，理成给领导看的周报</small></div></div>
+      <div id="caseBody"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. FEED -->
+<section id="feed">
+  <div class="reveal">
+    <span class="eyebrow">第 4 关 · 喂料升级</span>
+    <h2 class="sec-title">想让它更懂你的活？给它「喂料」</h2>
+    <p class="sec-sub">虾刚开始什么都不知道。你给它的东西越对，它干得越像样。下面是三种最实用的「喂料」方式，点开看具体怎么做。</p>
+  </div>
+  <div style="margin-top:34px" id="feedAcc">
+    <div class="acc reveal"><div class="acc-h"><div class="e">📎</div><div><b>喂「材料」——把你手上的东西给它看</b><div class="sub">表格、文档、旧周报、领导的要求……</div></div><div class="chev">⌄</div></div>
+      <div class="acc-b"><div class="acc-b-in">它不是算命的，得先「看到」东西才能帮你。把相关的材料一起发给它，结果立刻不一样。
+        <div class="ex"><b>这样说：</b>「这是这周的工作记录（粘贴），还有上次那份周报当参考（粘贴），帮我照着这个风格写这周的。」</div></div></div>
+    </div>
+    <div class="acc reveal"><div class="acc-h"><div class="e">🪞</div><div><b>喂「样板」——把你喜欢的样子给它</b><div class="sub">让它学着你/领导喜欢的风格写</div></div><div class="chev">⌄</div></div>
+      <div class="acc-b"><div class="acc-b-in">与其费劲描述「我要什么风格」，不如直接甩一个例子给它。它最擅长照葫芦画瓢。
+        <div class="ex"><b>这样说：</b>「我们领导喜欢这种总结的写法（贴一段范文），帮我把下面的内容也写成这个调调。」</div></div></div>
+    </div>
+    <div class="acc reveal"><div class="acc-h"><div class="e">🌐</div><div><b>喂「新信息」——让它去查最新的</b><div class="sub">它脑子里的知识不一定最新</div></div><div class="chev">⌄</div></div>
+      <div class="acc-b"><div class="acc-b-in">写材料要引用最新行业数据、政策、对手动态时，让它先上网查再写，比凭记忆靠谱。
+        <div class="ex"><b>这样说：</b>「先帮我查一下今年这个行业的最新趋势（带上来源），再据此写进我的方案背景部分。」</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. TIPS -->
+<section id="tips">
+  <div class="reveal">
+    <span class="eyebrow">第 5 关 · 用好它的诀窍</span>
+    <h2 class="sec-title">想用得又快又好？记住这几条</h2>
+    <p class="sec-sub">这些是全网公认的好习惯（出处见底部），我都翻译成了大白话。左边是「该这么做 ✓」，右边是「别这么做 ✗」。</p>
+  </div>
+  <div class="grid g2" style="margin-top:34px">
+    <div class="bp reveal"><div class="h"><div class="n">1</div><b>把话说清楚</b></div>
+      <div class="row do"><div class="mk">✓</div><div>一句话点明三件事：<b>要什么</b>、<b>给谁看</b>、<b>多长/什么风格</b>。比如「写份周报，给领导看，简洁、突出成果」。</div></div>
+      <div class="row dont"><div class="mk">✗</div><div>只甩一句「写个周报」——它只能瞎猜，写出来多半不对你胃口。</div></div>
+    </div>
+    <div class="bp reveal"><div class="h"><div class="n">2</div><b>给个例子最省事</b></div>
+      <div class="row do"><div class="mk">✓</div><div>把你想要的样子（一段范文、上次的版本）直接发给它，让它照着学。</div></div>
+      <div class="row dont"><div class="mk">✗</div><div>反复用文字描述「我要那种感觉」——说半天不如甩一个样板。</div></div>
+    </div>
+    <div class="bp reveal"><div class="h"><div class="n">3</div><b>大事先列提纲再写</b></div>
+      <div class="row do"><div class="mk">✓</div><div>「先别写，给我个提纲看看」——方向对了再让它展开，省得白写一大篇。</div></div>
+      <div class="row dont"><div class="mk">✗</div><div>一上来就让它写完整篇，写歪了只能整篇推倒重来。</div></div>
+    </div>
+    <div class="bp reveal"><div class="h"><div class="n">4</div><b>不满意就让它改</b></div>
+      <div class="row do"><div class="mk">✓</div><div>明确告诉它哪里不行、想怎么改：「第二段太啰嗦，砍一半」。改起来很快。</div></div>
+      <div class="row dont"><div class="mk">✗</div><div>觉得不好就关掉自己重写——其实你只要说一句它就帮你调好了。</div></div>
+    </div>
+    <div class="bp reveal"><div class="h"><div class="n">5</div><b>重要的，自己核一遍</b></div>
+      <div class="row do"><div class="mk">✓</div><div>关键数字、人名、事实，交出去前自己再扫一眼，把好最后一道关。</div></div>
+      <div class="row dont"><div class="mk">✗</div><div>它说啥信啥、原封不动交上去——它偶尔会一本正经地编错。</div></div>
+    </div>
+    <div class="bp reveal"><div class="h"><div class="n">6</div><b>一件事一个对话</b></div>
+      <div class="row do"><div class="mk">✓</div><div>写周报、做材料分开开两个对话，各聊各的，它不容易串味。</div></div>
+      <div class="row dont"><div class="mk">✗</div><div>把好几件不相干的事堆在一个对话里聊——越聊越乱、越聊越笨。</div></div>
+    </div>
+  </div>
+  <div class="src-note reveal">
+    <b>📎 这些诀窍哪来的：</b>整理自
+    <a href="https://www.anthropic.com/engineering/building-effective-agents" target="_blank" rel="noopener">Anthropic · 高效使用 AI 助手</a>、
+    <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" target="_blank" rel="noopener">给 AI 提供恰当信息的方法</a>、
+    <a href="https://code.claude.com/docs/en/best-practices" target="_blank" rel="noopener">Claude Code 最佳实践</a> 等公开资料，已翻译成普通人能用的说法。具体到你们公司的虾，以内部说明为准。
+  </div>
+</section>
+
+<!-- 6. CUSTOM -->
+<section id="custom">
+  <div class="reveal">
+    <span class="eyebrow">第 6 关 · 你的专属虾</span>
+    <h2 class="sec-title">不知道怎么开口？帮你生成一段「话术」</h2>
+    <p class="sec-sub">回答下面三个小问题，我直接给你<b>一段可以复制、粘贴去对虾说的话</b>——把【】里换成你的内容就能用，再附几条贴心提醒。</p>
+  </div>
+
+  <div class="builder reveal" id="builder">
+    <div class="b-step">
+      <div class="q"><span class="qn">1</span> 这次想让虾帮你做啥？</div>
+      <div class="opts" data-group="task">
+        <div class="opt" data-v="report">写周报</div>
+        <div class="opt" data-v="data">看一张数据表</div>
+        <div class="opt" data-v="doc">写一份材料</div>
+        <div class="opt" data-v="mail">回一封邮件</div>
+      </div>
+    </div>
+    <div class="b-step">
+      <div class="q"><span class="qn">2</span> 这东西最后给谁看？</div>
+      <div class="opts" data-group="aud">
+        <div class="opt" data-v="boss">领导</div>
+        <div class="opt" data-v="peer">同事 / 团队</div>
+        <div class="opt" data-v="client">客户 / 外部</div>
+        <div class="opt" data-v="self">自己用</div>
+      </div>
+    </div>
+    <div class="b-step">
+      <div class="q"><span class="qn">3</span> 你最担心哪一点？</div>
+      <div class="opts" data-group="worry">
+        <div class="opt" data-v="start">不知道怎么开口</div>
+        <div class="opt" data-v="style">怕写得不像我的风格</div>
+        <div class="opt" data-v="wrong">怕数据/内容出错</div>
+        <div class="opt" data-v="time">没时间反复改</div>
+      </div>
+    </div>
+    <div class="b-gen">
+      <button class="btn btn-primary" id="genBtn">✨ 生成我的开口话术</button>
+    </div>
+
+    <div class="result" id="result">
+      <h4>📋 复制这段话，发给你的虾（把【】换成你的内容）</h4>
+      <div class="paste" id="paste"><button class="copy" id="copyBtn">复制</button><span id="pasteText"></span></div>
+      <h4 style="margin-top:26px">💚 几条贴心提醒</h4>
+      <div class="tune" id="tune"></div>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div style="margin-top:54px" class="reveal">
+    <span class="eyebrow">🎓 毕业小测</span>
+    <h2 class="sec-title" style="margin-bottom:22px">学得怎么样？来 4 道题</h2>
+  </div>
+  <div class="quiz reveal" id="quiz">
+    <div class="qt">🦐 出师小测验</div>
+    <div class="qsub">都是日常会遇到的情况，选选看。</div>
+    <div class="q-card" id="qCard"></div>
+    <div class="q-nav">
+      <div class="q-prog" id="qProg">1 / 4</div>
+      <button class="q-next" id="qNext">下一题 →</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot">
+    <div class="foot-top">
+      <div>
+        <div class="brand"><span class="logo">🦐</span> 养虾指南</div>
+        <p>一份写给普通人的 AI 助手入门：不用懂技术，跟着学就能用它把周报、数据、材料这些活干得又快又好。</p>
+        <p class="disc">⚠️「虾」是对 AI 助手（OpenClaw / Hermes 类工具）的趣称。诀窍来自公开资料并已通俗化；用法、权限与数据规范请以你们公司的内部说明为准。重要数字与事实，记得自己复核。</p>
+      </div>
+      <div class="links">
+        <h5>六关</h5>
+        <a href="#basics">认识它</a><a href="#abilities">能帮你</a><a href="#cases">实战案例</a>
+        <a href="#feed">喂料升级</a><a href="#tips">用好它</a><a href="#custom">专属虾</a>
+      </div>
+      <div class="links">
+        <h5>想深入看看</h5>
+        <a href="https://www.anthropic.com/engineering/building-effective-agents" target="_blank" rel="noopener">高效使用 AI 助手</a>
+        <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" target="_blank" rel="noopener">怎么给 AI 喂对信息</a>
+        <a href="https://code.claude.com/docs/en/best-practices" target="_blank" rel="noopener">最佳实践（英文）</a>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>🦐 祝你养虾愉快 · 设计参考 coze.cn</span>
+      <span>用心做给最重要的人 ❤️</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* theme toggle (记忆上次选择，首次跟随系统) */
+(function(){
+  const btn=document.getElementById('themeBtn');
+  const saved=localStorage.getItem('shrimp-theme');
+  const sysDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const dark = saved ? saved==='dark' : sysDark;
+  function apply(d){document.body.classList.toggle('dark',d);btn.textContent=d?'☀️':'🌙';}
+  apply(dark);
+  btn.addEventListener('click',()=>{const d=!document.body.classList.contains('dark');apply(d);localStorage.setItem('shrimp-theme',d?'dark':'light');});
+})();
+
+/* progress + nav + grow */
+const hdr=document.getElementById('hdr'),prog=document.getElementById('progress');
+const ids=['basics','abilities','cases','feed','tips','custom'];
+const navmap={};document.querySelectorAll('.nav-links a').forEach(a=>navmap[a.getAttribute('href').slice(1)]=a);
+const stages=[{p:0,n:'虾苗 · 第 0 关'},{p:16,n:'幼虾 · 第 1 关'},{p:34,n:'壮虾 · 第 2 关'},{p:52,n:'熟练虾 · 第 3 关'},{p:70,n:'武装虾 · 第 4 关'},{p:88,n:'专属虾 · 出师啦'}];
+function onScroll(){
+  const st=window.scrollY,h=document.documentElement.scrollHeight-window.innerHeight;
+  const pct=Math.min(100,Math.round(st/h*100));
+  prog.style.width=pct+'%';hdr.classList.toggle('scrolled',st>10);
+  const ring=document.getElementById('growRing'),gp=document.getElementById('growPct'),gs=document.getElementById('growStage');
+  ring.style.setProperty('--p',pct+'%');gp.textContent=pct+'%';
+  let s=stages[0];for(const x of stages){if(pct>=x.p)s=x;}gs.textContent=s.n;
+  let cur=ids[0];ids.forEach(id=>{const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<=120)cur=id;});
+  Object.values(navmap).forEach(a=>a.classList.remove('active'));if(navmap[cur])navmap[cur].classList.add('active');
+}
+window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+function go(id){document.getElementById(id).scrollIntoView();}
+
+/* bubbles */
+const tank=document.getElementById('tank');
+for(let i=0;i<14;i++){const b=document.createElement('div');b.className='bubble';const sz=6+Math.random()*22;
+  b.style.width=sz+'px';b.style.height=sz+'px';b.style.left=Math.random()*100+'%';b.style.bottom='-30px';
+  b.style.animationDuration=(4+Math.random()*5)+'s';b.style.animationDelay=(Math.random()*5)+'s';tank.appendChild(b);}
+
+/* reveal */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* flip */
+document.querySelectorAll('#glossary .flip').forEach(f=>f.addEventListener('click',()=>f.classList.toggle('on')));
+
+/* capability tabs */
+document.querySelectorAll('#capTabs .tab').forEach(t=>t.addEventListener('click',()=>{
+  document.querySelectorAll('#capTabs .tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');
+  const c=t.dataset.c;document.querySelectorAll('#capBody .cap-item').forEach(it=>it.classList.toggle('show',it.dataset.c===c));
+}));
+
+/* ---------- CASES ---------- */
+const CASES={
+  report:{name:'案例①：写一份周报',desc:'把一周零散做的事，理成给领导看的周报',
+    flow:[
+      {step:'第 1 步｜把零散的事丢给它，一句话说清要求'},
+      {who:'user',t:'帮我把这周做的事整理成周报，给领导看，简洁、突出成果。素材：周一开产品评审会、定了3个需求；周二三跟进供应商报价，对比了A、B两家；周四修好了上周报表的一个错；周五写了下月计划初稿，还带了2个新人。'},
+      {who:'bot',t:'好的，已按「重点成果 / 本周进展 / 下周计划」整理：\n\n【本周成果】\n1. 主导产品评审会，敲定下阶段 3 个核心需求\n2. 完成 A/B 供应商比价，为采购决策提供依据\n3. 修复报表历史错误，保证数据准确\n\n【本周进展】\n· 下月工作计划初稿已完成\n· 完成 2 名新同事的带教\n\n【下周计划】\n· 推进 3 个需求落地…\n\n要不要我把语气再正式一点，或补上具体数据？'},
+      {tip:'一句话点清三件事——要什么（周报）、给谁（领导）、什么风格（简洁、突出成果），它一次就能写得八九不离十。'},
+      {step:'第 2 步｜哪里不满意，直接说怎么改'},
+      {who:'user',t:'第2条写具体点：A家比B家便宜12%，但交期慢一周。另外成果控制在3条以内就好。'},
+      {who:'bot',t:'已更新第2条：「完成 A/B 供应商比价——A 家报价低 12% 但交期多一周，已附建议供领导决策」。成果已精简为 3 条。'},
+      {tip:'不满意千万别自己关掉重写！告诉它「哪一条、怎么改」，它几秒就帮你调好。'},
+      {step:'第 3 步｜（可选）让它学你的风格'},
+      {who:'user',t:'这是我上次的周报（粘贴），我习惯用这种语气，帮我把这次的也改成这个调调。'},
+      {who:'bot',t:'好的，已按你上次的行文风格重写，用词和分段都贴近你的习惯了 👍'},
+      {tip:'把旧周报当「样板」甩给它，比你描述半天「我要什么风格」管用得多。'}
+    ]},
+  data:{name:'案例②：看懂一张数据表',desc:'不用会公式，把表给它、用大白话问就行',
+    flow:[
+      {step:'第 1 步｜把表格发给它，说你想知道啥'},
+      {who:'user',t:'这是我们组1到5月的销售数据（粘贴/上传表格）。我不太会看，帮我用大白话说说有什么变化和问题，再给我一段能直接放进周报的小结。'},
+      {who:'bot',t:'看完了，三个主要发现：\n\n1️⃣ 3月销售环比掉了约18%，主要拖累来自华东区；\n2️⃣ 客单价从1月到5月一直在稳步上涨，是个好信号；\n3️⃣ 5月有回升，但主要靠促销拉动，要留意促销停了会不会回落。\n\n📊 建议配一张「月度销售折线图」最直观。\n\n可直接用的小结：\n「1-5月销售整体平稳，客单价持续提升；3月受华东区影响短期回落，5月在促销带动下回升，需关注促销结束后的可持续性。」'},
+      {tip:'你完全不用会任何公式或函数——把表给它，用大白话问「有什么变化和问题」就够了。'},
+      {step:'第 2 步｜⚠️ 最关键的一步：核对数字'},
+      {who:'user',t:'「3月掉了18%」这个数你是怎么算的？把对应的数字列给我看看。'},
+      {who:'bot',t:'当然：2月销售 120 万，3月 98 万，(98-120)/120 ≈ -18.3%，所以是下降约18%。'},
+      {tip:'AI 偶尔会算错或编数字。让它「把算的过程和原始数字列出来」，你扫一眼核对，心里就踏实了。'},
+      {step:'第 3 步｜让它帮你说人话给别人听'},
+      {who:'user',t:'帮我把这个发现，写成跟领导口头汇报时能说的两三句话，别太书面。'},
+      {who:'bot',t:'「这个月整体还稳，客单价一直在涨是亮点。3月有点波动，主要是华东区的事，已经在跟进。5月回来了，不过有促销因素，我们盯着点后面。」'},
+      {tip:'同一份发现，可以让它换成「周报版」「口头汇报版」「给同事的版」——一鱼多吃。'}
+    ]},
+  doc:{name:'案例③：做一份汇报材料',desc:'大任务别一口吃成胖子：先提纲 → 再展开 → 再润色',
+    flow:[
+      {step:'第 1 步｜先要提纲，别让它直接开写'},
+      {who:'user',t:'帮我准备一份「部门年中总结」汇报材料，给领导汇报用，大概讲10分钟。先别急着写，先给我列个提纲看看。'},
+      {who:'bot',t:'建议提纲如下：\n1. 上半年关键成果（挑3个重点）\n2. 数据亮点（用1-2个数字说话）\n3. 遇到的问题与应对\n4. 下半年规划\n5. 需要领导支持的事项\n\n你看哪里要加减或调整？'},
+      {tip:'让它「先列提纲、你点头再写」，能避免它埋头写出一大篇、结果方向不对又得返工。'},
+      {step:'第 2 步｜确认方向，再让它逐节展开'},
+      {who:'user',t:'可以，把第4点「下半年规划」拆成「目标」和「具体打法」两块。按这个提纲展开，每点配一两句说明。'},
+      {who:'bot',t:'好的，已按确认后的提纲展开，每一节都配了简要说明，第4点也拆成了「目标 / 打法」两小块。需要我再帮你配一份汇报时照着念的口播要点吗？'},
+      {tip:'大任务拆开做：先提纲 → 再展开 → 再润色，效果比一句「写个总结」好太多。'},
+      {step:'第 3 步｜局部打磨到满意'},
+      {who:'user',t:'第3点「问题与应对」语气太负面了，帮我改得正面一点，体现我们是主动解决的。'},
+      {who:'bot',t:'已调整为强调「主动发现、快速应对、已见成效」的正面表述，读起来更有掌控感了。'},
+      {tip:'交之前，关键数字和人名自己再扫一遍——这是你把最后一道关，AI 帮不了你担这个责。'}
+    ]}
+};
+function renderCase(k){
+  const c=CASES[k];
+  document.getElementById('caseName').textContent=c.name;
+  document.getElementById('caseDesc').textContent=c.desc;
+  const box=document.getElementById('caseBody');box.innerHTML='';
+  c.flow.forEach(f=>{
+    if(f.step){const d=document.createElement('div');d.className='stepline';d.innerHTML='<span class="dot">›</span>'+f.step;box.appendChild(d);}
+    else if(f.tip){const d=document.createElement('div');d.className='tip'+(f.warn?' warn':'');d.innerHTML='<span class="e">💡</span><span>诀窍：'+f.tip+'</span>';box.appendChild(d);}
+    else{const d=document.createElement('div');d.className='msg '+f.who;
+      d.innerHTML='<div class="bubble-av">'+(f.who==='user'?'🙋':'🦐')+'</div><div class="txt">'+f.t+'</div>';box.appendChild(d);}
+  });
+}
+document.querySelectorAll('#caseTabs .tab').forEach(t=>t.addEventListener('click',()=>{
+  document.querySelectorAll('#caseTabs .tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');
+  renderCase(t.dataset.k);
+}));
+renderCase('report');
+
+/* accordion */
+document.querySelectorAll('#feedAcc .acc').forEach(a=>{
+  const h=a.querySelector('.acc-h'),b=a.querySelector('.acc-b');
+  h.addEventListener('click',()=>{
+    const open=a.classList.contains('open');
+    document.querySelectorAll('#feedAcc .acc').forEach(x=>{x.classList.remove('open');x.querySelector('.acc-b').style.maxHeight=null;});
+    if(!open){a.classList.add('open');b.style.maxHeight=b.scrollHeight+'px';}
+  });
+});
+
+/* ---------- recipe / 话术 builder ---------- */
+const pick={};
+document.querySelectorAll('.opts').forEach(g=>{
+  const key=g.dataset.group;
+  g.querySelectorAll('.opt').forEach(o=>o.addEventListener('click',()=>{
+    g.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));o.classList.add('sel');pick[key]=o.dataset.v;
+  }));
+});
+const taskWord={report:'一份周报',data:'看懂下面这张数据表',doc:'一份材料',mail:'一封回复邮件'};
+const audWord={boss:'给领导看',peer:'给同事/团队看',client:'给客户看',self:'我自己看'};
+const styleWord={boss:'正式、简洁、突出成果',peer:'清晰、好懂、重点明确',client:'专业、得体、有礼貌',self:'怎么清楚怎么来'};
+function buildScript(task,aud,worry){
+  const hl=s=>'<span class="hl">'+s+'</span>';
+  let body='';
+  if(task==='report'){
+    body=`帮我写${taskWord[task]}，${audWord[aud]}，风格${styleWord[aud]}，按「本周成果 / 进展 / 下周计划」来分，控制在一屏内。
+素材如下：${hl('【把这周做的事，想到啥写啥贴进来】')}`;
+  }else if(task==='data'){
+    body=`帮我${taskWord[task]}，我不太懂数据，请用大白话告诉我有什么变化和问题，并把算的过程和原始数字一起列出来方便我核对，最后给我一段${audWord[aud]}的小结。
+表格如下：${hl('【把表格内容粘贴/上传到这里】')}`;
+  }else if(task==='doc'){
+    body=`帮我准备${taskWord[task]}，${audWord[aud]}，风格${styleWord[aud]}。
+请先别动笔，先给我列一个提纲，等我确认方向后再逐节展开。
+主题和已有信息：${hl('【写清楚要做什么材料、有哪些已知内容】')}`;
+  }else{
+    body=`帮我写${taskWord[task]}，${audWord[aud]}，风格${styleWord[aud]}。
+我的意思是：${hl('【你想表达/答复的核心意思】')}
+对方原文：${hl('【把要回复的邮件原文贴进来】')}`;
+  }
+  // worry-driven add-on
+  const add={
+    start:'',
+    style:`\n另外，这是我习惯/喜欢的写法（请照着这个风格来）：${hl('【贴一段你以前写的、或你喜欢的范文】')}`,
+    wrong:'\n请注意：涉及数字和事实的地方，把依据一并列出来，方便我核对，不确定的地方请标出来、不要编。',
+    time:'\n请尽量一次写到位；如果有需要我补充的信息，先一次性把问题都问我，别来回挤牙膏。'
+  }[worry];
+  return body+add;
+}
+const tips={
+  start:'刚开始别怕说得不专业——你就当在跟一个实习生交代活儿，大白话就行。',
+  style:'第一次它可能不够像你，把你满意的版本留着，下次当样板甩给它，越用越顺。',
+  wrong:'⚠️ 它给的数字和事实，交出去前一定自己再核一遍——这是 AI 最容易翻车的地方。',
+  time:'如果它问你问题，认真回答能省掉好几轮返工；嫌长可以让它「先给我个初稿，再一起改」。'
+};
+function tuneFor(task,aud,worry){
+  const base=[
+    '说清楚「要什么、给谁看、什么风格」，它一次就能做得差不多。',
+    '不满意别重写，直接说「哪里、怎么改」，它几秒就帮你调好。'
+  ];
+  const t=[tips[worry],...base];
+  if(task==='doc')t.push('大材料记得让它「先列提纲、你确认再展开」，少走弯路。');
+  if(task==='data')t.push('数据类的活，永远多问一句「把算的过程列给我看」，再核对。');
+  return t;
+}
+document.getElementById('genBtn').addEventListener('click',()=>{
+  if(!pick.task||!pick.aud||!pick.worry){alert('先把上面三个小问题都选一下，才能帮你配出话术哦 🦐');return;}
+  document.getElementById('pasteText').innerHTML=buildScript(pick.task,pick.aud,pick.worry);
+  const tune=document.getElementById('tune');tune.innerHTML='';
+  tuneFor(pick.task,pick.aud,pick.worry).forEach(t=>{const d=document.createElement('div');d.className='t';d.innerHTML='<span class="e">✅</span><span>'+t+'</span>';tune.appendChild(d);});
+  const r=document.getElementById('result');r.classList.add('show');
+  setTimeout(()=>r.scrollIntoView({behavior:'smooth',block:'start'}),60);
+});
+document.getElementById('copyBtn').addEventListener('click',()=>{
+  const txt=document.getElementById('pasteText').innerText;
+  navigator.clipboard?.writeText(txt).then(()=>{const b=document.getElementById('copyBtn');b.textContent='已复制 ✓';setTimeout(()=>b.textContent='复制',1600);});
+});
+
+/* ---------- quiz ---------- */
+const QZ=[
+  {q:'想让虾把周报写得对你胃口，最该做的是？',o:['只说「写个周报」让它自由发挥','一句话说清：要什么、给谁看、什么风格','用很多专业词显得厉害','写好长一段命令'],a:1,e:'对！把「要什么、给谁看、什么风格」点清楚，它一次就能写得八九不离十。'},
+  {q:'它写出来的东西你不太满意，最好的做法是？',o:['自己关掉重写','告诉它哪里不行、想怎么改','算了将就用','再说一遍同样的话'],a:1,e:'没错。明确说「哪段、怎么改」，它几秒就帮你调好，比自己重写快多了。'},
+  {q:'它帮你算出一个关键数字，你应该？',o:['直接信，原样交上去','自己核对一下，让它把过程也列出来','完全不用它算数','只信整数'],a:1,e:'正解。AI 偶尔会算错或编数字，重要的数字一定自己再核一遍。'},
+  {q:'要做一份比较大的汇报材料，更聪明的开头是？',o:['让它一口气写完整篇','先让它列提纲，你确认方向再展开','把要求拆成十句话分十次发','不给任何背景就让它写'],a:1,e:'对。先提纲、再展开、再润色，避免它埋头写歪了又得整篇返工。'}
+];
+let qi=0,answered=false,score=0,finished=false;
+const qCard=document.getElementById('qCard'),qProg=document.getElementById('qProg'),qNext=document.getElementById('qNext');
+function renderQ(){
+  answered=false;finished=false;qNext.classList.remove('on');
+  const item=QZ[qi];qProg.textContent=(qi+1)+' / '+QZ.length;
+  qNext.textContent=qi===QZ.length-1?'看结果 🎉':'下一题 →';
+  let html='<div class="q-q">'+(qi+1)+'. '+item.q+'</div><div class="q-opts">';
+  item.o.forEach((o,i)=>html+='<div class="q-opt" data-i="'+i+'">'+o+'</div>');
+  html+='</div><div class="q-fb"></div>';qCard.innerHTML=html;
+  qCard.querySelectorAll('.q-opt').forEach(op=>op.addEventListener('click',()=>{
+    if(answered)return;answered=true;const i=+op.dataset.i,item=QZ[qi];
+    if(i===item.a){op.classList.add('correct');score++;}
+    else{op.classList.add('wrong');qCard.querySelector('.q-opt[data-i="'+item.a+'"]').classList.add('correct');}
+    qCard.querySelector('.q-fb').textContent=item.e;qNext.classList.add('on');
+  }));
+}
+qNext.addEventListener('click',()=>{
+  if(finished){qi=0;score=0;renderQ();return;}
+  if(!answered)return;
+  if(qi<QZ.length-1){qi++;renderQ();}
+  else{finished=true;
+    const tier=score>=4?'🦐 养虾大师，可以出师啦！':score===3?'💪 很不错，再练练就稳了':score>=1?'🐣 入门啦，回去多看两眼案例':'🥚 别急，回去再过一遍就懂了';
+    qCard.innerHTML='<div class="q-done"><div class="big">'+score+'/'+QZ.length+'</div><div style="font-size:19px;font-weight:800;margin:10px 0">'+tier+'</div><div style="color:#C9CCEE">回去把不熟的那一关再看看，你的虾会越养越听话 🦐</div></div>';
+    qProg.textContent='完成';qNext.textContent='再测一次';qNext.classList.add('on');
+  }
+});
+renderQ();
+</script>
+</body>
+</html>
