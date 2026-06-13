@@ -160,6 +160,25 @@
   .acc-b-in .ex b{color:var(--primary)}
   @media(max-width:860px){.acc-b-in{padding-left:22px}}
 
+  /* skills */
+  .skill{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;height:100%;display:flex;flex-direction:column;transition:.22s}
+  .skill:hover{box-shadow:var(--shadow-lg);transform:translateY(-4px);border-color:transparent}
+  .skill .top{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+  .skill .si{width:46px;height:46px;border-radius:13px;background:var(--primary-soft);display:grid;place-items:center;font-size:23px;flex:none}
+  .skill .nm{font-size:16px;font-weight:800;line-height:1.25}
+  .skill .nm code{font-size:12px;font-weight:600;color:var(--ink-3);font-family:"SF Mono",Menlo,Consolas,monospace}
+  .skill .hot{display:inline-block;font-size:11.5px;font-weight:700;color:var(--coral);background:#FFEEE8;border-radius:7px;padding:3px 9px;margin-top:8px;align-self:flex-start}
+  body.dark .skill .hot{background:#3a221a}
+  .skill p.fn{font-size:13.5px;color:var(--ink-2);margin:12px 0 0}
+  .skill .use{margin-top:14px;background:var(--good-soft);border-radius:12px;padding:12px 14px;font-size:13px;color:#11795a;line-height:1.6}
+  body.dark .skill .use{color:#5fd6ab}
+  .skill .use b{color:#0c5e44;display:block;margin-bottom:3px;font-size:12px}
+  body.dark .skill .use b{color:#7ee0bc}
+  .safe-note{margin-top:26px;background:var(--warn-soft);border:1px solid #F3D08A;border-radius:16px;padding:18px 22px;font-size:14px;color:#7a5200;display:flex;gap:13px;align-items:flex-start}
+  body.dark .safe-note{border-color:#5a4416;color:#e0b870}
+  .safe-note .e{font-size:24px;flex:none}
+  .safe-note b{color:inherit}
+
   /* best practice do/dont */
   .bp{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;height:100%}
   .bp .h{display:flex;align-items:center;gap:12px;margin-bottom:8px}
@@ -238,6 +257,7 @@
       <a href="#abilities">能帮你</a>
       <a href="#cases">实战案例</a>
       <a href="#feed">喂料升级</a>
+      <a href="#skills">热门技能</a>
       <a href="#tips">用好它</a>
       <a href="#custom">专属虾</a>
     </div>
@@ -397,6 +417,76 @@
   </div>
 </section>
 
+<!-- BONUS: HOT SKILLS -->
+<section id="skills">
+  <div class="reveal">
+    <span class="eyebrow">🔥 进阶 · 给你的虾装技能</span>
+    <h2 class="sec-title">全网最热门的几个「技能」，照着用</h2>
+    <p class="sec-sub">「技能（Skill）」就是给虾装的小插件——装上之后它就多一项本事。下面这些是 ClawHub / Hermes 上安装量最高的几个，我挑了对你写周报、看数据、做材料最有用的，每个都配了一句能直接照搬的用法。</p>
+  </div>
+  <div class="grid g3 reveal" style="margin-top:34px">
+    <div class="skill"><div class="top"><div class="si">🌐</div><div class="nm">网页浏览 <code>web-browsing</code></div></div>
+      <span class="hot">★ ClawHub 安装量第一</span>
+      <p class="fn">让虾自己上网：打开网页、读内容、查资料、甚至填表单。是大多数人装的第一个技能。</p>
+      <div class="use"><b>📌 用它来</b>「写方案前，帮我上网查今年我们行业的最新政策和 3 个竞品动态，带链接，整理成背景部分。」</div>
+    </div>
+    <div class="skill"><div class="top"><div class="si">🔎</div><div class="nm">联网搜索 <code>tavily / felo-search</code></div></div>
+      <span class="hot">🔥 研究/查资料必备</span>
+      <p class="fn">专为 AI 优化的快速搜索，答案带出处。要引用最新数据、权威信息时比凭记忆靠谱。</p>
+      <div class="use"><b>📌 用它来</b>「查 3 条今年关于'灵活办公'的权威数据，每条带来源链接，我要写进周报的行业观察。」</div>
+    </div>
+    <div class="skill"><div class="top"><div class="si">📊</div><div class="nm">数据查询 <code>database-query</code></div></div>
+      <span class="hot">📈 数据党福音</span>
+      <p class="fn">用大白话查数据库（不用会写 SQL），适合从系统里拉数、做分析。</p>
+      <div class="use"><b>📌 用它来</b>「帮我查上个月各区成交额，从高到低排，把环比下降的区单独标出来。」</div>
+    </div>
+    <div class="skill"><div class="top"><div class="si">📝</div><div class="nm">长文总结 <code>summarize</code></div></div>
+      <span class="hot">🔥 7 大必备之一</span>
+      <p class="fn">把长文章、会议录音转写、邮件串、视频，压成结构化的要点摘要。</p>
+      <div class="use"><b>📌 用它来</b>「这是 2 小时项目会的录音转写（粘贴），提炼成 5 条要点 + 我负责的待办，放进周报。」</div>
+    </div>
+    <div class="skill"><div class="top"><div class="si">📑</div><div class="nm">生成 PPT <code>felo-slides / pptx</code></div></div>
+      <span class="hot">🔥 做材料神器</span>
+      <p class="fn">从一段文字描述直接生成专业、可编辑的 PPT 演示。</p>
+      <div class="use"><b>📌 用它来</b>「按我这份《部门年中总结》大纲（粘贴），生成一份 10 页汇报 PPT，简洁商务风。」</div>
+    </div>
+    <div class="skill"><div class="top"><div class="si">🗂️</div><div class="nm">办公套件 <code>GOG（Google 工作区）</code></div></div>
+      <span class="hot">★ 下载量最高之一</span>
+      <p class="fn">一个技能打通邮件、日历、云盘、表格、文档。（公司若用飞书/企业微信，也有对应套件技能）</p>
+      <div class="use"><b>📌 用它来</b>「把云盘里那份《Q2 销售表》拉出来，看完写一段周报小结，再起草一封发给组长的邮件。」</div>
+    </div>
+    <div class="skill"><div class="top"><div class="si">🧠</div><div class="nm">持久记忆 <code>self-improving</code></div></div>
+      <span class="hot">★ ClawHub 评分榜首</span>
+      <p class="fn">把你的偏好、常用规范、踩过的坑记下来，跨对话不忘，越用越懂你。</p>
+      <div class="use"><b>📌 用它来</b>「记住：我的周报固定用'成果/进展/计划'三段式、语气正式。以后我说'写周报'就照这个来。」</div>
+    </div>
+    <div class="skill"><div class="top"><div class="si">📲</div><div class="nm">消息通知 <code>telegram / 飞书 / 钉钉</code></div></div>
+      <span class="hot">🔥 通知类第一</span>
+      <p class="fn">把结果推到你手机上，离开电脑也能第一时间看到、随手回。</p>
+      <div class="use"><b>📌 用它来</b>「周报草稿写好后发一条到我手机，我通勤路上看一眼,有问题直接回你改。」</div>
+    </div>
+    <div class="skill"><div class="top"><div class="si">⚙️</div><div class="nm">流程自动化 <code>n8n-workflow</code></div></div>
+      <span class="hot">🔥 把重复活串起来</span>
+      <p class="fn">用一句话触发跨多个应用的自动流程，适合把每周固定的重复操作一键跑完。</p>
+      <div class="use"><b>📌 用它来</b>「每周五下午自动：拉本周数据 → 生成周报初稿 → 发到我的待办，等我审。」</div>
+    </div>
+  </div>
+
+  <div class="safe-note reveal">
+    <span class="e">⚠️</span>
+    <div><b>装技能前，先验一下来源！</b>技能虽好，但鱼龙混杂——2026 年初安全机构审计发现，ClawHub 上约 <b>13.4% 的技能存在严重安全问题，还有 341 个被查出在偷偷窃取用户数据</b>。所以：只装来源可信、口碑好的技能；公司环境优先用 IT 审核过的；拿不准就先让管理员/同事帮你验一下，别图省事乱装。</div>
+  </div>
+
+  <div class="src-note reveal">
+    <b>📎 热门技能数据来自：</b>
+    <a href="https://github.com/VoltAgent/awesome-openclaw-skills" target="_blank" rel="noopener">awesome-openclaw-skills（5,400+ 精选）</a>、
+    <a href="https://felo.ai/blog/best-openclaw-skills-2026/" target="_blank" rel="noopener">Felo · ClawHub 必装清单</a>、
+    <a href="https://www.kdnuggets.com/7-essential-openclaw-skills-you-need-right-now" target="_blank" rel="noopener">KDnuggets · 7 个必备技能</a>、
+    <a href="https://hermes-agent.nousresearch.com/docs/user-guide/features/skills" target="_blank" rel="noopener">Hermes Agent · 技能系统文档</a>。
+    安装量随时间变化，具体可用技能与安装方式以你们公司的 OpenClaw / Hermes 内部说明为准。
+  </div>
+</section>
+
 <!-- 5. TIPS -->
 <section id="tips">
   <div class="reveal">
@@ -543,7 +633,7 @@
 
 /* progress + nav + grow */
 const hdr=document.getElementById('hdr'),prog=document.getElementById('progress');
-const ids=['basics','abilities','cases','feed','tips','custom'];
+const ids=['basics','abilities','cases','feed','skills','tips','custom'];
 const navmap={};document.querySelectorAll('.nav-links a').forEach(a=>navmap[a.getAttribute('href').slice(1)]=a);
 const stages=[{p:0,n:'虾苗 · 第 0 关'},{p:16,n:'幼虾 · 第 1 关'},{p:34,n:'壮虾 · 第 2 关'},{p:52,n:'熟练虾 · 第 3 关'},{p:70,n:'武装虾 · 第 4 关'},{p:88,n:'专属虾 · 出师啦'}];
 function onScroll(){
