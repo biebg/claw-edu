@@ -184,6 +184,27 @@
   .safe-note .e{font-size:24px;flex:none}
   .safe-note b{color:inherit}
 
+  /* train: persona & memory */
+  .tcard{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px;height:100%}
+  .tcard .th{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+  .tcard .th .e{width:50px;height:50px;border-radius:14px;background:var(--primary-soft);display:grid;place-items:center;font-size:26px;flex:none}
+  .tcard .th b{font-size:18px}
+  .tcard .tlead{font-size:14px;color:var(--ink-2);margin-bottom:16px}
+  .qbox{background:var(--bg-soft);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+  .qbox .qhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;gap:10px}
+  .qbox .qhead span{font-size:12px;font-weight:800;color:var(--ink-3)}
+  .qcopy{background:var(--primary);color:#fff;border:none;border-radius:8px;padding:5px 13px;font-size:12px;font-weight:700;cursor:pointer;transition:.15s;flex:none}
+  .qcopy:hover{filter:brightness(1.08)}
+  .qtext{font-size:13.5px;line-height:1.75;color:var(--ink);white-space:pre-line}
+  .qtext .hl{background:#FFE7C2;border-radius:4px;padding:0 4px;color:#8a5a00;font-weight:600}
+  body.dark .qtext .hl{background:#4a3a16;color:#f0c98a}
+  .tlist{margin:16px 0 0;display:grid;gap:9px}
+  .tlist .li{font-size:13.5px;color:var(--ink-2);display:flex;gap:9px;align-items:flex-start}
+  .tlist .li .k{flex:none;font-weight:800;color:var(--primary);background:var(--primary-soft);border-radius:7px;padding:2px 9px;font-size:12px}
+  .tnote{margin-top:24px;background:var(--primary-soft);border-radius:16px;padding:16px 20px;font-size:13.5px;color:var(--ink-2)}
+  .tnote b{color:var(--primary)}.tnote code{background:var(--card);padding:2px 7px;border-radius:6px;font-size:12.5px;color:var(--primary)}
+  .tnote a{color:var(--primary);font-weight:600;text-decoration:underline;text-underline-offset:2px}
+
   /* automation highlight band */
   .autoband{position:relative;background:var(--grad);border-radius:30px;padding:42px;color:#fff;overflow:hidden;box-shadow:var(--shadow-lg);margin-top:6px}
   .autoband::after{content:"⏰";position:absolute;right:-26px;top:-30px;font-size:200px;opacity:.1;transform:rotate(12deg);pointer-events:none}
@@ -318,6 +339,7 @@
       <a href="#cases">案例</a>
       <a href="#auto">自动化</a>
       <a href="#feed">喂料</a>
+      <a href="#train">调教</a>
       <a href="#skills">技能</a>
       <a href="#tips">用好它</a>
       <a href="#faq">答疑</a>
@@ -507,6 +529,55 @@
       <div class="acc-b"><div class="acc-b-in">写材料要引用最新行业数据、政策、对手动态时，让它先上网查再写，比凭记忆靠谱。
         <div class="ex"><b>这样说：</b>「先帮我查一下今年这个行业的最新趋势（带上来源），再据此写进我的方案背景部分。」</div></div></div>
     </div>
+  </div>
+</section>
+
+<!-- TRAIN: PERSONA & MEMORY -->
+<section id="train">
+  <div class="reveal">
+    <span class="eyebrow">🎭 进阶 · 调教你的虾</span>
+    <h2 class="sec-title">给它定「人设」，教它「记住你」</h2>
+    <p class="sec-sub">这是把虾变成<b>真正属于你</b>的关键一步：告诉它该是个什么样的助手（人设），再让它把该长期记住的事存下来（记忆）。下面两段话术，把【】换成你的内容，复制去对它说就行。</p>
+  </div>
+  <div class="grid g2 reveal" style="margin-top:34px">
+    <div class="tcard">
+      <div class="th"><div class="e">🎭</div><b>定人设：它是个什么样的助手</b></div>
+      <p class="tlead">就像跟新来的助理交代「你是谁、说话什么风格、什么底线」。说一次，往后它都照这个来。</p>
+      <div class="qbox">
+        <div class="qhead"><span>📋 复制这段去对它说</span><button class="qcopy">复制</button></div>
+        <div class="qtext">从现在起，你是我的工作助手，请记住以下要求、以后一直照做：
+① 说话简洁、专业，别绕弯子；
+② 给我东西先说结论，再补细节；
+③ 涉及数字和事实，标清来源，不确定就直说，绝不编；
+④ 我习惯的风格是<span class="hl">【贴一段你满意的范文，或写"正式"/"口语"】</span>。</div>
+      </div>
+      <div class="tip" style="margin-top:14px"><span class="e">💡</span><span>人设别贪多——挑 3-5 条你最在意的就够；它哪天跑偏了，再补一条规矩。</span></div>
+    </div>
+
+    <div class="tcard">
+      <div class="th"><div class="e">🧠</div><b>教它记住你：跨对话也不忘</b></div>
+      <p class="tlead">默认它一关对话就「失忆」。但你可以让它把该长期记的事存下来，新对话也带回来，越用越懂你。</p>
+      <div class="qbox">
+        <div class="qhead"><span>📋 复制这段去对它说</span><button class="qcopy">复制</button></div>
+        <div class="qtext">记住我这几个固定信息，以后默认都用：
+· 周报固定用「成果 / 进展 / 计划」三段式；
+· 我们组说的「GMV」指<span class="hl">【当月成交额】</span>；
+· 我汇报对象是<span class="hl">【李总】</span>，对外语气要正式；
+· 我常用的模板/资料在<span class="hl">【某处】</span>。</div>
+      </div>
+      <div class="tlist">
+        <div class="li"><span class="k">记</span><span>想让它记住 → 直接说「<b>记住：</b>……」</span></div>
+        <div class="li"><span class="k">查</span><span>想确认它记没记住 → 问「你还记得我的周报偏好吗？」</span></div>
+        <div class="li"><span class="k">改</span><span>偏好变了 → 说「<b>更新一下</b>，现在改成……」</span></div>
+        <div class="li"><span class="k">删</span><span>过时了 → 说「<b>忘掉</b>……那条」</span></div>
+      </div>
+      <div class="tip warn" style="margin-top:14px"><span class="e">⚠️</span><span>记忆不是越多越好：过期的让它「忘掉」，同一件事别记两遍（否则会自相矛盾）；公司共享的虾，别把私人偏好混进公共记忆。</span></div>
+    </div>
+  </div>
+
+  <div class="tnote reveal">
+    <b>🔎 小知识（可不管，给好奇的你）：</b>这些「人设」和「记忆」其实被虾记在两个小本子里——人设在 <code>PERSONA.md</code>（OpenClaw 里叫 <code>SOUL.md</code>），长期记忆在 <code>MEMORY.md</code>。<b>你平时完全不用碰文件，在对话里说就行</b>；想大改或清理，可以让 IT/同事帮你打开看看。想让它「自动记住」而不用每次叮嘱，可以装个记忆技能（见上面热门技能里的 <code>self-improving</code>）。
+    资料：<a href="https://github.com/NousResearch/hermes-agent" target="_blank" rel="noopener">Hermes Agent</a>、<a href="https://launchmyopenclaw.com/openclaw-memory-md-guide/" target="_blank" rel="noopener">OpenClaw MEMORY.md 指南</a>。
   </div>
 </section>
 
@@ -706,7 +777,7 @@
       <div class="links">
         <h5>目录</h5>
         <a href="#basics">认识它</a><a href="#abilities">能帮你</a><a href="#cases">实战案例</a><a href="#auto">⏰ 自动化任务</a>
-        <a href="#feed">喂料升级</a><a href="#skills">热门技能</a><a href="#tips">用好它</a><a href="#faq">常见问题</a><a href="#custom">专属虾</a>
+        <a href="#feed">喂料升级</a><a href="#train">调教人设/记忆</a><a href="#skills">热门技能</a><a href="#tips">用好它</a><a href="#faq">常见问题</a><a href="#custom">专属虾</a>
       </div>
       <div class="links">
         <h5>想深入看看</h5>
@@ -736,7 +807,7 @@
 
 /* progress + nav + grow */
 const hdr=document.getElementById('hdr'),prog=document.getElementById('progress');
-const ids=['basics','abilities','cases','auto','feed','skills','tips','faq','custom'];
+const ids=['basics','abilities','cases','auto','feed','train','skills','tips','faq','custom'];
 const navmap={};document.querySelectorAll('.nav-links a').forEach(a=>navmap[a.getAttribute('href').slice(1)]=a);
 const stages=[
   {p:0,n:'虾苗 · 第 0 关',short:'虾苗',emo:'🥚'},
@@ -1052,6 +1123,12 @@ document.getElementById('copyBtn').addEventListener('click',()=>{
   const txt=document.getElementById('pasteText').innerText;
   navigator.clipboard?.writeText(txt).then(()=>{const b=document.getElementById('copyBtn');b.textContent='已复制 ✓';setTimeout(()=>b.textContent='复制',1600);});
 });
+
+/* 调教版块的复制按钮 */
+document.querySelectorAll('.qcopy').forEach(btn=>btn.addEventListener('click',()=>{
+  const txt=btn.closest('.qbox').querySelector('.qtext').innerText;
+  navigator.clipboard?.writeText(txt).then(()=>{btn.textContent='已复制 ✓';setTimeout(()=>btn.textContent='复制',1600);});
+}));
 
 /* ---------- quiz ---------- */
 const QZ=[
