@@ -179,6 +179,32 @@
   .safe-note .e{font-size:24px;flex:none}
   .safe-note b{color:inherit}
 
+  /* automation highlight band */
+  .autoband{position:relative;background:var(--grad);border-radius:30px;padding:42px;color:#fff;overflow:hidden;box-shadow:var(--shadow-lg);margin-top:6px}
+  .autoband::after{content:"⏰";position:absolute;right:-26px;top:-30px;font-size:200px;opacity:.1;transform:rotate(12deg);pointer-events:none}
+  .autoband .ab-eye{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:800;background:rgba(255,255,255,.2);padding:6px 14px;border-radius:999px;backdrop-filter:blur(4px)}
+  .autoband h2{font-size:clamp(25px,3.6vw,36px);font-weight:850;letter-spacing:-.5px;margin:16px 0 10px;line-height:1.2;color:#fff;position:relative}
+  .autoband .ab-lead{font-size:16.5px;color:rgba(255,255,255,.92);max-width:680px;position:relative}
+  .auto-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:28px 0 26px;position:relative}
+  @media(max-width:860px){.auto-cards{grid-template-columns:1fr}}
+  .auto-card{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);border-radius:18px;padding:20px;backdrop-filter:blur(6px)}
+  .auto-card .e{font-size:30px}
+  .auto-card b{display:block;font-size:16px;margin:8px 0 8px}
+  .auto-card p{font-size:13.5px;color:rgba(255,255,255,.9);line-height:1.6}
+  .auto-card .say{display:block;margin-top:10px;background:rgba(0,0,0,.18);border-radius:11px;padding:10px 13px;font-size:12.5px;color:#fff}
+  .auto-setup{position:relative;background:rgba(255,255,255,.97);border-radius:20px;padding:22px 24px;color:var(--ink)}
+  .auto-setup .st{font-size:13px;font-weight:800;color:var(--primary);margin-bottom:14px}
+  .auto-setup .m{display:flex;gap:10px;margin:10px 0;max-width:92%}
+  .auto-setup .m .a{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:16px;flex:none}
+  .auto-setup .m .x{padding:11px 14px;border-radius:14px;font-size:14px;line-height:1.6}
+  .auto-setup .m.u{margin-left:auto;flex-direction:row-reverse}
+  .auto-setup .m.u .a{background:var(--primary-soft)}
+  .auto-setup .m.u .x{background:var(--grad);color:#fff;border-bottom-right-radius:4px}
+  .auto-setup .m.b .a{background:#fff;border:1px solid var(--line)}
+  .auto-setup .m.b .x{background:var(--bg-soft);border-bottom-left-radius:4px}
+  .auto-foot{position:relative;display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}
+  .auto-foot .pill{font-size:13px;font-weight:600;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);border-radius:12px;padding:10px 15px;color:#fff;display:flex;gap:8px;align-items:flex-start}
+
   /* best practice do/dont */
   .bp{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;height:100%}
   .bp .h{display:flex;align-items:center;gap:12px;margin-bottom:8px}
@@ -255,11 +281,12 @@
     <div class="nav-links">
       <a href="#basics">认识它</a>
       <a href="#abilities">能帮你</a>
-      <a href="#cases">实战案例</a>
-      <a href="#feed">喂料升级</a>
-      <a href="#skills">热门技能</a>
+      <a href="#cases">案例</a>
+      <a href="#auto">自动化</a>
+      <a href="#feed">喂料</a>
+      <a href="#skills">技能</a>
       <a href="#tips">用好它</a>
-      <a href="#faq">常见问题</a>
+      <a href="#faq">答疑</a>
       <a href="#custom">专属虾</a>
     </div>
     <a class="nav-cta" href="cheatsheet.html" target="_blank">🖨️ 打印小抄</a>
@@ -394,6 +421,33 @@
     <div class="chat">
       <div class="chat-head"><div class="av">🦐</div><div><b id="caseName">案例①：写一份周报</b><small id="caseDesc">把一周零散做的事，理成给领导看的周报</small></div></div>
       <div id="caseBody"></div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTOMATION HIGHLIGHT -->
+<section id="auto">
+  <div class="autoband reveal">
+    <span class="ab-eye">⏰ 最省事的玩法 · 重点看这里</span>
+    <h2>别每次都开口——让它<u>自动</u>帮你干</h2>
+    <p class="ab-lead">前面都是「你说一句、它做一件」。但虾最省时间的用法是：<b>设置一次，它就按时自动跑</b>，结果直接送到你面前。尤其适合每周、每月都要重复做的活——比如你的周报。</p>
+
+    <div class="auto-cards">
+      <div class="auto-card"><div class="e">🗓️</div><b>每周自动写周报</b><p>到点自动汇总你这周的工作记录，生成周报初稿，推到你手机等你审。</p><span class="say">「每周五下午 4 点，把我这周的工作整理成三段式周报初稿，发我手机。」</span></div>
+      <div class="auto-card"><div class="e">📊</div><b>每月自动汇总数据</b><p>每月初自动拉上月数据，算好环比、挑出异常，整理成一段小结发你。</p><span class="say">「每月 1 号，把上月销售表拉出来，算环比、标异常，写成小结给我。」</span></div>
+      <div class="auto-card"><div class="e">🔔</div><b>每天定时整理提醒</b><p>每天早上自动把要紧的新邮件挑出来，列一份今日待办给你。</p><span class="say">「每天早上 9 点，挑出昨天要紧的邮件，列个今日待办给我。」</span></div>
+    </div>
+
+    <div class="auto-setup">
+      <div class="st">🛠️ 怎么设置？就跟它说一句话 ——</div>
+      <div class="m u"><div class="a">🙋</div><div class="x">以后每周五下午，自动把我这周的工作整理成周报初稿，按「成果 / 进展 / 计划」三段，做好发我手机，我看了再定稿。</div></div>
+      <div class="m b"><div class="a">🦐</div><div class="x">好的，已设置每周五 16:00 的自动任务：汇总本周记录 → 生成三段式周报初稿 → 推送到你手机。你随时可以说「改个时间」或「先停掉」。</div></div>
+    </div>
+
+    <div class="auto-foot">
+      <span class="pill">💡 关键就一句：告诉它「多久一次 · 几点 · 做什么 · 结果发哪」</span>
+      <span class="pill">🛑 随时能改时间、能停，不用怕设了收不回</span>
+      <span class="pill">⚠️ 这功能需要你们的虾支持「定时/自动任务」——大多支持，不确定问下 IT 或同事</span>
     </div>
   </div>
 </section>
@@ -615,8 +669,8 @@
         <p class="disc">⚠️「虾」是对 AI 助手（OpenClaw / Hermes 类工具）的趣称。诀窍来自公开资料并已通俗化；用法、权限与数据规范请以你们公司的内部说明为准。重要数字与事实，记得自己复核。</p>
       </div>
       <div class="links">
-        <h5>六关</h5>
-        <a href="#basics">认识它</a><a href="#abilities">能帮你</a><a href="#cases">实战案例</a>
+        <h5>目录</h5>
+        <a href="#basics">认识它</a><a href="#abilities">能帮你</a><a href="#cases">实战案例</a><a href="#auto">⏰ 自动化任务</a>
         <a href="#feed">喂料升级</a><a href="#skills">热门技能</a><a href="#tips">用好它</a><a href="#faq">常见问题</a><a href="#custom">专属虾</a>
       </div>
       <div class="links">
@@ -647,7 +701,7 @@
 
 /* progress + nav + grow */
 const hdr=document.getElementById('hdr'),prog=document.getElementById('progress');
-const ids=['basics','abilities','cases','feed','skills','tips','faq','custom'];
+const ids=['basics','abilities','cases','auto','feed','skills','tips','faq','custom'];
 const navmap={};document.querySelectorAll('.nav-links a').forEach(a=>navmap[a.getAttribute('href').slice(1)]=a);
 const stages=[{p:0,n:'虾苗 · 第 0 关'},{p:16,n:'幼虾 · 第 1 关'},{p:34,n:'壮虾 · 第 2 关'},{p:52,n:'熟练虾 · 第 3 关'},{p:70,n:'武装虾 · 第 4 关'},{p:88,n:'专属虾 · 出师啦'}];
 function onScroll(){
