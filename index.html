@@ -147,6 +147,24 @@
   .msg.bot .txt b{color:var(--primary)}
   .tip{display:flex;gap:10px;align-items:flex-start;background:var(--good-soft);border-radius:14px;padding:13px 16px;font-size:13.5px;color:#11795a;margin:14px 0 0;font-weight:600}
   .tip.warn{background:var(--warn-soft);color:#9a6300}
+  body.dark .tip{color:#5fd6ab}body.dark .tip.warn{color:#e0b870}
+  /* interactive step-through */
+  .chat-head .cprog{margin-left:auto;font-size:12px;font-weight:800;color:var(--primary);background:var(--primary-soft);padding:5px 12px;border-radius:999px;flex:none;white-space:nowrap}
+  #caseBody{max-height:500px;overflow-y:auto;scroll-behavior:smooth;padding-right:8px}
+  #caseBody::-webkit-scrollbar{width:7px}#caseBody::-webkit-scrollbar-thumb{background:var(--line);border-radius:4px}
+  .csend{background:var(--primary-soft);border:1.5px dashed var(--primary-2);border-radius:16px;padding:16px 17px;margin:14px 0 4px;animation:fade .35s}
+  .csend .lbl{font-size:12.5px;font-weight:800;color:var(--primary);margin-bottom:8px}
+  .csend .txt{font-size:14.5px;color:var(--ink);line-height:1.65;white-space:pre-line}
+  .csend .send{margin-top:13px;background:var(--grad);color:#fff;border:none;border-radius:11px;padding:10px 22px;font-weight:750;font-size:14px;cursor:pointer;transition:.15s;display:inline-flex;align-items:center;gap:7px}
+  .csend .send:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(78,91,246,.35)}
+  .pop-in{animation:fade .4s ease}
+  .cnav{display:flex;flex-direction:column;gap:12px;margin-top:18px;align-items:flex-start}
+  .cnext{background:var(--grad);color:#fff;border:none;border-radius:11px;padding:10px 20px;font-weight:750;font-size:14px;cursor:pointer;transition:.15s}
+  .cnext:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(78,91,246,.3)}
+  .cdone{font-size:15px;font-weight:750;color:var(--good)}
+  .cdone-btns{display:flex;gap:10px;flex-wrap:wrap}
+  .cbtn-ghost{background:var(--card);border:1px solid var(--line);color:var(--ink);border-radius:11px;padding:10px 18px;font-weight:700;font-size:14px;cursor:pointer;transition:.15s}
+  .cbtn-ghost:hover{transform:translateY(-1px)}
   .tip .e{flex:none}
   @media(max-width:860px){.msg{max-width:97%}.chat{padding:18px}}
 
@@ -475,7 +493,7 @@
 
   <div class="case-wrap">
     <div class="chat">
-      <div class="chat-head"><div class="av">🦐</div><div><b id="caseName">案例①：写一份周报</b><small id="caseDesc">把一周零散做的事，理成给领导看的周报</small></div></div>
+      <div class="chat-head"><div class="av">🦐</div><div><b id="caseName">案例①：写一份周报</b><small id="caseDesc">把一周零散做的事，理成给领导看的周报</small></div><span class="cprog" id="caseProg">第 1 / 3 步</span></div>
       <div id="caseBody"></div>
     </div>
   </div>
@@ -1020,17 +1038,67 @@ const CASES={
       {tip:'价格、功能这类常变的信息，AI 不一定最新或有出入——做决定前，点开它给的来源自己确认一遍。',warn:true}
     ]}
 };
+const CASE_ORDER=['report','data','doc','mail','meeting','compare'];
+let curCase='report',curSteps=[],stepIdx=0;
+function parseSteps(flow){
+  const g=[];let cur=null;
+  flow.forEach(f=>{
+    if(f.step){if(cur)g.push(cur);cur={label:f.step,msgs:[],tip:null};}
+    else if(f.tip){if(cur)cur.tip=f;}
+    else{if(cur)cur.msgs.push(f);}
+  });
+  if(cur)g.push(cur);return g;
+}
+function caseBottom(){const b=document.getElementById('caseBody');b.scrollTop=b.scrollHeight;}
+function mkBubble(m){const d=document.createElement('div');d.className='msg '+m.who+' pop-in';
+  d.innerHTML='<div class="bubble-av">'+(m.who==='user'?'🙋':'🦐')+'</div><div class="txt">'+m.t+'</div>';return d;}
+function setCaseProg(){const p=document.getElementById('caseProg');if(p)p.textContent='第 '+Math.min(stepIdx+1,curSteps.length)+' / '+curSteps.length+' 步';}
 function renderCase(k){
-  const c=CASES[k];
+  curCase=k;const c=CASES[k];
   document.getElementById('caseName').textContent=c.name;
   document.getElementById('caseDesc').textContent=c.desc;
-  const box=document.getElementById('caseBody');box.innerHTML='';
-  c.flow.forEach(f=>{
-    if(f.step){const d=document.createElement('div');d.className='stepline';d.innerHTML='<span class="dot">›</span>'+f.step;box.appendChild(d);}
-    else if(f.tip){const d=document.createElement('div');d.className='tip'+(f.warn?' warn':'');d.innerHTML='<span class="e">💡</span><span>诀窍：'+f.tip+'</span>';box.appendChild(d);}
-    else{const d=document.createElement('div');d.className='msg '+f.who;
-      d.innerHTML='<div class="bubble-av">'+(f.who==='user'?'🙋':'🦐')+'</div><div class="txt">'+f.t+'</div>';box.appendChild(d);}
+  curSteps=parseSteps(c.flow);stepIdx=0;
+  document.getElementById('caseBody').innerHTML='';
+  showStep();
+}
+function showStep(){
+  const box=document.getElementById('caseBody'),step=curSteps[stepIdx];
+  setCaseProg();
+  const sl=document.createElement('div');sl.className='stepline pop-in';sl.innerHTML='<span class="dot">›</span>'+step.label;box.appendChild(sl);
+  const um=step.msgs.find(m=>m.who==='user');
+  const card=document.createElement('div');card.className='csend';
+  card.innerHTML='<div class="lbl">🙋 轮到你 —— 把这句话发给虾：</div><div class="txt">'+(um?um.t:'')+'</div>';
+  const btn=document.createElement('button');btn.className='send';btn.innerHTML='发送 ➤';card.appendChild(btn);
+  box.appendChild(card);caseBottom();
+  btn.addEventListener('click',()=>{
+    card.remove();
+    step.msgs.forEach((m,i)=>{
+      setTimeout(()=>{
+        box.appendChild(mkBubble(m));caseBottom();
+        if(i===step.msgs.length-1){
+          if(step.tip){const t=document.createElement('div');t.className='tip pop-in'+(step.tip.warn?' warn':'');t.innerHTML='<span class="e">💡</span><span>诀窍：'+step.tip.tip+'</span>';box.appendChild(t);}
+          appendCaseNav();caseBottom();
+        }
+      },reduceMotion?0:i*480);
+    });
   });
+}
+function appendCaseNav(){
+  const box=document.getElementById('caseBody'),nav=document.createElement('div');nav.className='cnav pop-in';
+  if(stepIdx<curSteps.length-1){
+    nav.innerHTML='<button class="cnext">下一步 →</button>';
+    nav.querySelector('.cnext').addEventListener('click',()=>{nav.remove();stepIdx++;showStep();});
+  }else{
+    nav.innerHTML='<div class="cdone">✅ 这个案例走完啦！你已经学会怎么一步步指挥它了 🦐</div><div class="cdone-btns"><button class="cbtn-ghost cReplay">🔁 重走一遍</button><button class="cnext cNextCase">下一个案例 →</button></div>';
+    nav.querySelector('.cReplay').addEventListener('click',()=>renderCase(curCase));
+    nav.querySelector('.cNextCase').addEventListener('click',()=>{
+      const nk=CASE_ORDER[(CASE_ORDER.indexOf(curCase)+1)%CASE_ORDER.length];
+      document.querySelectorAll('#caseTabs .tab').forEach(x=>x.classList.toggle('active',x.dataset.k===nk));
+      renderCase(nk);document.getElementById('cases').scrollIntoView({behavior:'smooth'});
+    });
+    boom({count:50});
+  }
+  box.appendChild(nav);
 }
 document.querySelectorAll('#caseTabs .tab').forEach(t=>t.addEventListener('click',()=>{
   document.querySelectorAll('#caseTabs .tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');
